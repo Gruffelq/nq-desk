@@ -130,6 +130,8 @@ main.wrap{padding-top:28px;padding-bottom:48px}
 .lock-msg{margin-top:12px;color:var(--kicker)!important;font-size:14.5px}
 .tv-tape{border-bottom:1px solid var(--rule);min-height:46px}
 .tv-cal{margin-top:12px;border-top:2px solid var(--ink);padding-top:6px;min-height:520px}
+.tv-news{margin-top:12px;min-height:560px}
+.tv-info{min-height:150px}
 /* Tabellen */
 .filters{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 8px;font-size:14.5px}
 .filters .grp{display:flex;gap:4px;align-items:center}
@@ -281,14 +283,15 @@ const V={
         <article class="story"><span class="kicker">Makro & Politik</span><h2>${esc(mk.title||'')}</h2><p>${esc(firstSentence(mk.text))}</p><button class="go" data-go="makro">Read more</button></article>
       </div>
       <div class="below"><span class="kicker">Companies</span><h2 style="font-size:22px;margin-bottom:4px">Earnings and price reactions</h2>${erTable([...((D.earnings||{}).yesterday||[]),...((D.earnings||{}).today||[])])}<h3 style="font-size:18px;margin:22px 0 0">Coming up</h3>${upTable((D.earnings||{}).upcoming)}</div>
-    </div>${rail()}</div>`;
+    <div class="below"><span class="kicker">Live</span><h2 style="font-size:22px;margin-bottom:4px">Top stories</h2><p class="byline" style="margin-top:2px">Market headlines from TradingView, updating by themselves.</p><div class="tv-news" id="tvnews"></div></div>
+    </div>${rail(`<div class="rail-block"><h3>Nasdaq 100 live</h3><div class="tv-info" id="tvinfo"></div><p class="byline" style="margin-top:6px">Index CFD. NQ futures trade a few points away from it.</p></div>`)}</div>`;
   },
   kalender(){
     return `<div class="article"><div>${articleHead('News Calendar','Economic calendar for the week','All times in New York time (ET). Events in your killzone from 09:30 to 11:00 ET are marked in red. Actual impact shows how far NQ really moved in the first 30 minutes after past releases, compared with a normal 30 minutes at that time of day.')}
       <div class="filters">
         <div class="grp"><span>Period</span><button class="flt" data-day="woche" aria-pressed="${fDay==='woche'}">Full week</button><button class="flt" data-day="heute" aria-pressed="${fDay==='heute'}">Today only</button></div>
         <div class="grp"><span>Impact</span><button class="flt" data-imp="alle" aria-pressed="${fImp==='alle'}">All</button><button class="flt" data-imp="hoch" aria-pressed="${fImp==='hoch'}">High only</button></div>
-      </div>${calTable()}<h2 style="font-size:22px;margin-top:34px">Live calendar</h2><p class="byline" style="margin-top:2px">TradingView, updates by itself with actual values. US high and medium impact only. Times follow your computer's time zone.</p><div class="tv-cal" id="tvcal"></div>${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
+      </div>${calTable()}${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
   },
   ict(){
     const i=D.ict||{};
@@ -324,7 +327,7 @@ const V={
 const cur=()=>{const h=location.hash.slice(1);return RES.some(r=>r[0]===h)?h:'start'};
 function show(){const id=cur();
   document.querySelectorAll('.res').forEach(b=>b.toggleAttribute('aria-current',false)||b.dataset.go===id&&b.setAttribute('aria-current','page'));
-  document.getElementById('main').innerHTML=V[id]();if(id==='kalender')mountCal();}
+  document.getElementById('main').innerHTML=V[id]();if(id==='start'){mountInfo();mountNews();}}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-day],[data-imp]');if(!t)return;
   if(t.dataset.go){location.hash=t.dataset.go==='start'?'':t.dataset.go;if(t.dataset.go==='start')show();window.scrollTo(0,0);return}
   if(t.dataset.day){fDay=t.dataset.day;show()} if(t.dataset.imp){fImp=t.dataset.imp;show()}});
@@ -359,7 +362,8 @@ function mountTape(){mountTV(document.getElementById('tvtape'),'embed-widget-tic
   {proName:'PEPPERSTONE:NAS100',title:'Nasdaq 100'},{proName:'FOREXCOM:SPXUSD',title:'S&P 500'},{proName:'CAPITALCOM:DXY',title:'DXY'},
   {proName:'CAPITALCOM:VIX',title:'VIX'},{proName:'TVC:USOIL',title:'WTI'},{proName:'TVC:GOLD',title:'Gold'},{proName:'FX:EURUSD',title:'EUR/USD'}],
   showSymbolLogo:false,isTransparent:true,displayMode:'adaptive',colorTheme:'light',locale:'en'})}
-function mountCal(){mountTV(document.getElementById('tvcal'),'embed-widget-events.js',{colorTheme:'light',isTransparent:true,width:'100%',height:520,locale:'en',importanceFilter:'0,1',countryFilter:'us'})}
+function mountInfo(){mountTV(document.getElementById('tvinfo'),'embed-widget-symbol-info.js',{symbol:'PEPPERSTONE:NAS100',width:'100%',locale:'en',colorTheme:'light',isTransparent:true})}
+function mountNews(){mountTV(document.getElementById('tvnews'),'embed-widget-timeline.js',{feedMode:'market',market:'index',isTransparent:true,displayMode:'regular',width:'100%',height:560,colorTheme:'light',locale:'en'})}
 function start(d){setTimeout(mountTape,0);
   D=d;
   const age=(Date.now()-new Date(d.updated_at).getTime())/3.6e6;
