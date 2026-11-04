@@ -166,28 +166,152 @@ table.data tr.kz td.time{color:var(--kicker)}
 footer{border-top:1px solid var(--rule-strong);font-size:13px;color:var(--ink-3)}
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;padding-bottom:28px}
 .loading{padding:80px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:18px}
+[hidden]{display:none!important}
+/* Routine: numbered tabs, form controls, interactions */
+nav.ressorts .wrap{gap:0}
+.res{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink-2);transition:color .12s}
+.res:hover{color:var(--ink);text-decoration:none}
+.res[aria-current="page"]{color:var(--ink)}
+.res .n{display:inline-grid;place-items:center;width:21px;height:21px;border:1.5px solid currentColor;border-radius:50%;font-size:11.5px;font-weight:700;transition:background .15s,color .15s}
+.res.done .n{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.datebar{display:flex;align-items:center;gap:6px}
+.datebar button{border:1px solid var(--rule);width:26px;height:26px;display:inline-grid;place-items:center;font-size:14px;transition:background .12s,border-color .12s}
+.datebar button:hover:not(:disabled){border-color:var(--ink);background:var(--tint)}
+.datebar button:disabled{opacity:.35;cursor:default}
+.datebar input{font:inherit;font-size:13px;border:1px solid var(--rule);padding:2px 6px;height:26px;color:var(--ink);background:var(--paper)}
+.datebar input:hover{border-color:var(--ink)}
+.datebar #dtoday{width:auto;padding:0 9px;font-weight:600}
+#saved{min-width:64px;color:var(--ink-3)} #saved[data-s="Saved"]{color:#1d6b3a} #saved[data-s="Not saved"]{color:var(--kicker)}
+.right{display:flex;gap:16px;align-items:center}
+.archbar{background:#fbf3e4;border-bottom:1px solid #e8d7b0;font-size:14px}
+.archbar .wrap{padding-top:8px;padding-bottom:8px}
+.archbar a{font-weight:700}
+body:not(.open) .datebar,body:not(.open) #saved{visibility:hidden}
+body.busy main{opacity:.45;pointer-events:none;transition:opacity .15s}
+main.enter{animation:enter .22s ease-out}
+@keyframes enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){main.enter{animation:none}*{transition:none!important}}
+.page-h{font-size:36px;line-height:1.12;margin-top:2px}
+.head-rule{margin-bottom:6px}
+h2.sec{font-size:22px;margin:28px 0 10px;border-top:1px solid var(--ink);padding-top:12px}
+.article > div > h2.sec:first-child,.article > div > .filters:first-child{margin-top:20px}
+h3.sub{font-size:18px;margin:22px 0 4px}
+h2.bh{font-size:22px;margin-bottom:4px}
+.body h3.mh{font-size:19px;margin:18px 0 6px}
+.mt{margin-top:16px}
+.subtabs{display:flex;border-bottom:1px solid var(--ink);margin-top:18px;overflow-x:auto;scrollbar-width:none}
+.subtabs a{padding:10px 16px;font-weight:600;font-size:15px;border-bottom:3px solid transparent;margin-bottom:-1px;text-decoration:none;color:var(--ink-2);white-space:nowrap;transition:color .12s,border-color .12s}
+.subtabs a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+.subtabs a[aria-selected="true"]{color:var(--kicker);border-bottom-color:var(--kicker)}
+.q{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--rule)}
+.ql{font-size:16px}
+.ql small{display:block;color:var(--ink-3);font-size:13.5px}
+@media(max-width:620px){.q{grid-template-columns:1fr;gap:8px}}
+.seg{display:inline-flex;border:1px solid var(--ink);background:var(--paper);flex-wrap:wrap}
+.seg button{padding:7px 12px;font-size:14.5px;border-right:1px solid var(--ink);min-width:40px;transition:background .12s,color .12s}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--tint)}
+.seg button:active{background:#e6e6e2}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg.big{margin:6px 0 4px}
+.seg.big button{padding:10px 20px;font-size:16px;font-weight:600}
+.rules{list-style:none;margin-top:10px}
+.rules li{padding:10px 0;border-bottom:1px dotted var(--rule);font-size:15.5px;display:flex;justify-content:space-between;gap:12px}
+.rules b{white-space:nowrap}
+.light{padding:18px;border:2px solid var(--rule);transition:border-color .2s}
+.light .lab{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)}
+.light .v{font-family:var(--serif);font-size:30px;font-weight:700;margin:4px 0}
+.light p{font-size:14.5px;color:var(--ink-2)}
+.light.go{border-color:#1d6b3a}.light.go .v{color:#1d6b3a}
+.light.wait{border-color:#9a6700}.light.wait .v{color:#9a6700}
+.light.stop{border-color:var(--kicker)}.light.stop .v{color:var(--kicker)}
+.hint{margin-top:16px;font-size:14.5px;color:var(--kicker)}
+.hint a{color:inherit;font-weight:700}
+.next{display:inline-flex;gap:8px;align-items:center;margin-top:20px;font-weight:700;background:var(--ink);color:var(--paper);padding:11px 18px;text-decoration:none;transition:background .12s,transform .06s}
+.next:hover{background:#333}
+.next:active{transform:translateY(1px)}
+.next span{transition:transform .15s}.next:hover span{transform:translateX(3px)}
+.ack{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-size:15.5px;font-weight:600;cursor:pointer;user-select:none}
+.ack input{width:19px;height:19px;margin-top:2px;accent-color:var(--ink);cursor:pointer;flex:none}
+.inp,textarea{width:100%;font:inherit;font-size:16px;line-height:1.45;padding:10px 12px;border:1px solid #bbb;border-radius:2px;background:#fff;color:#111;transition:border-color .12s,box-shadow .12s}
+.inp:hover,textarea:hover{border-color:#888}
+.inp:focus,textarea:focus{outline:none;border-color:#111;box-shadow:0 0 0 1px #111}
+.inp::placeholder,textarea::placeholder{color:#8a8a8a}
+.inp.rk{width:220px}
+textarea{resize:vertical;min-height:84px;display:block}
+.fl{display:block;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:16px 0 6px}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin:0 0 12px}
+.thumb{margin:0;position:relative;border:1px solid var(--rule);background:#fff;overflow:hidden}
+.thumb .zoom{display:block;width:100%;cursor:zoom-in}
+.thumb img{width:100%;display:block;transition:transform .2s}
+.thumb:hover img{transform:scale(1.02)}
+.thumb .rm{position:absolute;top:6px;right:6px;background:#fff;color:#111;border:1px solid #111;font-size:12px;padding:2px 8px;opacity:0;transition:opacity .12s}
+.thumb:hover .rm,.thumb .rm:focus-visible{opacity:1}
+@media(hover:none){.thumb .rm{opacity:1}}
+.shot{border:1px dashed var(--ink-3);min-height:124px;display:grid;place-items:center;text-align:center;padding:12px;font-size:14px;color:var(--ink-2);cursor:pointer;background:#fff;transition:border-color .12s,background .12s}
+.shot:hover{border-color:var(--ink);background:var(--tint)}
+.shot.on{border:2px solid var(--kicker);background:#fbf3f2}
+.shot.drag{border:2px solid var(--ink);background:var(--tint)}
+.pick{text-decoration:underline;cursor:pointer}
+.sc{margin-top:8px}
+.ws{list-style:none;counter-reset:w}
+.ws li{counter-increment:w;border-bottom:1px solid var(--rule);padding:13px 0 13px 36px;position:relative}
+.ws li::before{content:counter(w);position:absolute;left:2px;top:11px;font-weight:700;font-size:21px;font-family:var(--serif)}
+.ws li b{font-size:16.5px}
+.ws li p{margin-top:4px;font-size:15.5px;color:var(--ink-2)}
+.ws li.hot{border-left:3px solid var(--kicker);padding-left:42px;background:#fbf3f2}
+.ws li.hot::before{left:12px;color:var(--kicker)}
+.go-card{background:var(--ink);color:var(--paper);padding:14px 16px;font-weight:700;margin-top:12px}
+.go-card.stop{background:var(--kicker)}
+.stopbar{background:#fbf3f2;border-left:3px solid var(--kicker);padding:10px 14px;margin-bottom:18px;font-size:15px}
+.stopbar b{color:var(--kicker)}
+.startcard{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border:2px solid var(--ink);padding:16px 18px;margin-top:26px}
+.startcard p{font-family:var(--serif);font-size:17px}
+.startcard .next{margin-top:0}
+.note-box{margin-bottom:10px}.note-box + .note-box{margin-top:0}
+.rail .rail-block p{font-size:15px}
+.flt{transition:background .12s,border-color .12s}.flt:hover{border-color:var(--ink)}
+.story .go:hover,.srclist a:hover{color:var(--kicker)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:var(--paper);padding:10px 16px;font-size:14.5px;display:flex;gap:14px;align-items:center;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+#toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#toast button{color:var(--paper);font-weight:700;text-decoration:underline}
+#lb{border:0;padding:0;background:transparent;max-width:96vw;max-height:96vh;margin:auto}
+#lb::backdrop{background:rgba(10,10,10,.86)}
+#lb img{max-width:96vw;max-height:88vh;display:block;margin:0 auto}
+.lb-bar{display:flex;gap:10px;justify-content:center;align-items:center;margin-top:10px;color:#fff;font-size:14px}
+.lb-bar button{color:#fff;border:1px solid rgba(255,255,255,.5);padding:4px 12px}
+.lb-bar button:hover{background:rgba(255,255,255,.12)}
+.head-rule{border-bottom:0;padding-bottom:0}
+.head-rule .standfirst{font-family:var(--serif);font-size:18.5px;color:var(--ink-2);margin-top:8px;max-width:62ch}
+@media(max-width:760px){nav.ressorts .wrap{justify-content:flex-start}.page-h{font-size:30px}.utility .wrap{gap:8px}}
 </style>
 </head>
 <body>
 <div class="utility"><div class="wrap">
-  <span id="today">–</span>
-  <span id="state">Locked</span>
+  <div class="datebar" aria-label="Trading day">
+    <button type="button" id="dprev" aria-label="Previous day">‹</button>
+    <input type="date" id="dpick" aria-label="Pick a trading day">
+    <button type="button" id="dnext" aria-label="Next day">›</button>
+    <button type="button" id="dtoday" hidden>Today</button>
+  </div>
+  <div class="right"><span id="saved" aria-live="polite"></span><span id="state">Locked</span></div>
 </div></div>
+<div class="archbar" id="archbar" hidden></div>
 <header class="mast wrap">
   <div class="name">NQ Desk</div>
-  <div class="claim">The morning briefing for Nasdaq futures traders</div>
+  <div class="claim">The morning briefing and pre-market routine for Nasdaq futures traders</div>
 </header>
 <nav class="ressorts" aria-label="Sections"><div class="wrap" id="nav"></div></nav>
 <div class="tv-tape" id="tvtape" aria-label="Live prices"></div>
 <div class="ticker"><div class="wrap" id="ticker"></div></div>
 <main class="wrap" id="main"><div class="loading">Loading edition…</div></main>
-<footer><div class="wrap"><span>All times New York (ET) · New editions every weekday before the London open and before the NY open</span><span>Not investment advice</span></div></footer>
-
+<footer><div class="wrap"><span>All times New York (ET) · New editions every weekday before the London open and before the NY open · ← → switch tabs</span><span>Not investment advice</span></div></footer>
+<div id="toast" role="status" aria-live="polite"></div>
+<dialog id="lb" aria-label="Screenshot"></dialog>
 <script>
-const RES=[
-  ['start','Front page'],['kalender','News Calendar'],['ict','ICT Plan'],['overnight','Overnight'],
-  ['earnings','Companies'],['makro','Macro & Politics'],['quellen','Sources']
-];
+const TABS=[['front','Front page'],['psych','Psych Check & Risk'],['news','News & ICT Plan'],['bias','Daily Bias & Scenarios'],['weak','Weak Spots']];
+const SUBS=[['news','News'],['ict','ICT Plan'],['fund','Fundamentals'],['src','Sources']];
 const LIVE=[
   ['Forex Factory','Economic calendar with live actuals','https://www.forexfactory.com/calendar'],
   ['TradingView Calendar','Events and results','https://www.tradingview.com/economic-calendar/'],
@@ -202,13 +326,14 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const cls=m=>/^\s*\+/.test(m)?'pos':/^\s*[−-]/.test(m)?'neg':'';
 const toMin=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t||'');return m?+m[1]*60+ +m[2]:null};
 
-function berlin(){
-  const f=o=>new Intl.DateTimeFormat('en-GB',{timeZone:'America/New_York',...o}).format(new Date());
-  const p=new Intl.DateTimeFormat('de-DE',{timeZone:'America/New_York',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
-  const g=t=>p.find(x=>x.type===t).value;
-  return {long:f({weekday:'long',day:'numeric',month:'long',year:'numeric'}),date:`${g('day')}.${g('month')}.`,mins:+g('hour')*60+ +g('minute'),
-          wd:new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short'}).format(new Date())};
-}
+/* ---- Dates: everything keyed by the New York trading day ---- */
+const nyKey=(d=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York'}).format(d);
+let selDate=nyKey();
+const isToday=()=>selDate===nyKey();
+const dayStr=()=>{const[,m,d]=selDate.split('-');return d+'.'+m+'.'};
+const fmtDay=(k,o={weekday:'long',day:'numeric',month:'long',year:'numeric'})=>new Date(k+'T12:00:00Z').toLocaleDateString('en-GB',{...o,timeZone:'UTC'});
+const shiftDay=(k,n)=>{const d=new Date(k+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10)};
+function nowNY(){const p=new Intl.DateTimeFormat('de-DE',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());const g=t=>p.find(x=>x.type===t).value;return +g('hour')%24*60+ +g('minute')}
 function nextUpd(){
   /* Editions run at 07:00 and 14:00 Berlin time; shown here in New York time */
   const at=tz=>{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());return +p.find(x=>x.type==='hour').value%24*60+ +p.find(x=>x.type==='minute').value};
@@ -217,7 +342,9 @@ function nextUpd(){
   const et=m=>{const x=((m-off)%1440+1440)%1440;return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')+' ET'};
   if(!we&&bm<420)return et(420);if(!we&&bm<840)return et(840);return((wd==='Fri'||wd==='Sat')?'Monday ':'')+et(420)}
 
-let D=null,fDay='woche',fImp='alle';
+let D=null,noEd=false,fDay='woche',fImp='alle';
+const EMPTY={headline:'No edition archived for this day',tldr:'Briefings are archived from 4 November 2026 on. Your own entries for this day still work below.',calendar:[],overnight:{},earnings:{},macro:[],ict:{},sources:[],impact_stats:{}};
+
 /* Actual impact: how far NQ historically moved in the 30 minutes after each release type (5m candles) */
 const KEYS=[[/nonfarm|\bnfp\b|payrolls/i,'nfp','Nonfarm Payrolls'],[/\bcpi\b/i,'cpi','CPI'],[/\bppi\b/i,'ppi','PPI'],[/\badp\b/i,'adp','ADP Employment'],
  [/ism services/i,'ism-services','ISM Services PMI'],[/ism manufacturing/i,'ism-manufacturing','ISM Manufacturing PMI'],[/jobless claims/i,'jobless-claims','Initial Jobless Claims'],
@@ -230,32 +357,31 @@ function imp30(name){const kk=keyOf(name);const ev=((D.impact_stats||{}).events|
 function impCell(name){const x=imp30(name);if(!x)return'<span class="muted">–</span>';
   return `<span class="ai ai-${x.label.toLowerCase()}">${x.label}</span><small class="ai-sub">${x.avg30} pt in 30 min · ${x.ratio}× normal · n=${x.n}</small>`}
 
-
-const stand=()=>new Date(D.updated_at).toLocaleString('en-GB',{timeZone:'America/New_York',weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})+' ET';
-const today=()=>(D.calendar||[]).filter(e=>(e.day||'').includes(berlin().date));
+const stand=()=>noEd?fmtDay(selDate):new Date(D.updated_at).toLocaleString('en-GB',{timeZone:'America/New_York',weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})+' ET';
+const today=()=>(D.calendar||[]).filter(e=>(e.day||'').includes(dayStr()));
 const isKz=e=>{const m=toMin(e.time);return m!==null&&m>=570&&m<=660};
 const headline=()=>D.headline||(D.tldr||'').split(/[.→]/)[0];
 const firstSentence=s=>{const m=/^(.+?[.!?])\s+(?=[A-ZÄÖÜ])/.exec(s||'');return m?m[1]:s||''};
 
 function levelsTable(){const l=(D.overnight||{}).levels||[];
-  return l.length?`<table class="lv tnum">${l.map(x=>`<tr><td>${esc(x.label)}</td><td class="v">${esc(x.value)}</td></tr>`).join('')}</table>`:'<p>No levels.</p>'}
+  return l.length?`<table class="lv tnum">${l.map(x=>`<tr><td>${esc(x.label)}</td><td class="v">${esc(x.value)}</td></tr>`).join('')}</table>`:'<p class="muted">No levels.</p>'}
 function todayList(){const t=today();
-  return t.length?`<ul class="rail-list tnum">${t.map(e=>`<li class="${isKz(e)?'kz':''}"><span class="t">${esc(e.time)}</span><span>${esc(e.event)}<small>${isKz(e)?'In your killzone · ':''}Impact ${IMP[e.impact]||'–'}${imp30(e.event)?' · Actual impact '+imp30(e.event).label:''}</small></span></li>`).join('')}</ul>`:'<p>No events today.</p>'}
+  return t.length?`<ul class="rail-list tnum">${t.map(e=>`<li class="${isKz(e)?'kz':''}"><span class="t">${esc(e.time)}</span><span>${esc(e.event)}<small>${isKz(e)?'In your killzone · ':''}Impact ${IMP[e.impact]||'–'}${imp30(e.event)?' · Actual impact '+imp30(e.event).label:''}</small></span></li>`).join('')}</ul>`:'<p class="muted">No events.</p>'}
 function notes(){const i=D.ict||{};
-  return `${i.no_trade?`<div class="note-box warn"><b>Do not trade</b>${esc(i.no_trade)}</div>`:''}${i.coach_note?`<div class="note-box"><b>Note to self</b>${esc(i.coach_note)}</div>`:''}`}
+  return `${i.no_trade?`<div class="note-box warn"><b>Do not trade</b>${esc(i.no_trade)}</div>`:''}${i.coach_note?`<div class="note-box"><b>Note to self</b>${esc(i.coach_note)}</div>`:''}`||'<p class="muted">–</p>'}
 function rail(extra=''){return `<aside class="rail">
   ${extra}
   <div class="rail-block"><h3>Today's events</h3>${todayList()}</div>
   <div class="rail-block"><h3>Key Levels NQ</h3>${levelsTable()}</div>
   <div class="rail-block"><h3>Reminders</h3>${notes()}</div></aside>`}
-function articleHead(kicker,h,stand1){return `<div class="head-rule"><span class="kicker">${esc(kicker)}</span><h1>${esc(h)}</h1>${stand1?`<p class="standfirst">${esc(stand1)}</p>`:''}<p class="byline">${esc(D.edition||'')} · ${stand()}</p></div>`}
+function head(kicker,h,lede,by){return `<div class="head-rule"><span class="kicker">${kicker}</span><h1 class="page-h">${h}</h1>${lede?`<p class="standfirst">${esc(lede)}</p>`:''}${by?`<p class="byline">${[D.edition,stand()].filter(Boolean).map(esc).join(' · ')}</p>`:''}</div>`}
 
 function calTable(){
-  const now=berlin();let last=null,out='';
+  const now=nowNY();let last=null,out='';
   (D.calendar||[]).forEach(e=>{
-    const tdy=(e.day||'').includes(now.date);
+    const tdy=(e.day||'').includes(dayStr());
     if(fDay==='heute'&&!tdy)return; if(fImp==='hoch'&&e.impact!=='high')return;
-    const m=toMin(e.time),done=tdy&&m!==null&&m<now.mins-5,nt=/no-trade/i.test(e.note||''),kz=isKz(e);
+    const m=toMin(e.time),done=tdy&&isToday()&&m!==null&&m<now-5,nt=/no-trade/i.test(e.note||''),kz=isKz(e);
     if(e.day!==last){out+=`<tr class="day"><td colspan="4">${esc(e.day)}${tdy?' · Today':''}</td></tr>`;last=e.day}
     const note=(e.note||'').replace(/no-trade[- ](tag|day)/i,'').trim();
     out+=`<tr class="${done?'done':''} ${kz?'kz':''}"><td class="time tnum">${esc(e.time)}</td>
@@ -266,93 +392,281 @@ function calTable(){
   return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Time</th><th>Event</th><th>Impact</th><th>Actual impact</th></tr></thead><tbody>${out||'<tr><td colspan="4">No events for this filter.</td></tr>'}</tbody></table></div>`;
 }
 function upTable(a){return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Date</th><th>Release (ET)</th><th>Ticker</th><th>Why it matters</th></tr></thead><tbody>${(a||[]).map(x=>`<tr><td class="time tnum">${esc(x.date)}</td><td class="tnum">${esc(x.time)}</td><td><b>${esc(x.ticker)}</b></td><td>${esc(x.note)}</td></tr>`).join('')||'<tr><td colspan="4">No upcoming earnings listed.</td></tr>'}</tbody></table></div>`}
-
 function erTable(a){const r=(a||[]).some(x=>x.release);return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Ticker</th><th>Move</th>${r?'<th>Release (ET)</th>':''}<th>Why</th></tr></thead><tbody>${(a||[]).map(x=>`<tr><td><b>${esc(x.ticker)}</b></td><td class="tnum ${cls(x.move)}"><b>${esc(x.move)}</b></td>${r?`<td class="time tnum">${esc(x.release||'–')}</td>`:''}<td>${esc(x.note)}</td></tr>`).join('')||'<tr><td colspan="4">No entries.</td></tr>'}</tbody></table></div>`}
 
+/* ---- Your entries for the selected day ---- */
+const blank=()=>({S:{sleep:null,last:null,urge:null,stress:null,focus:null,accept:null},risk:'',ack2:false,
+  F:{bias:'',narr:'',Ait:'',Atgt:'',Ainv:'',Bit:'',Btgt:'',Binv:''},SH:{bias:[],sA:[],sB:[]},W:{wrong:'',lesson:'',focus:''},ack4:false});
+let E=blank();
+const Q=[
+ ['sleep','How did you sleep?','Scale 1 (bad) to 5 (great)',[1,2,3,4,5]],
+ ['last','Last trading day','Result of your last session',['Win','Loss','Rule break','No trade']],
+ ['urge','Do you feel the urge to win something back?','Be honest',['No','Yes']],
+ ['stress','Stress outside trading?','Work, school, private',['Low','Medium','High']],
+ ['focus','Focus right now','Scale 1 to 5',[1,2,3,4,5]],
+ ['accept','Are you ready to lose today?','If both trades hit the stop (−2R), can you accept it and walk away?',['Yes','No']]
+];
+function light(){const S=E.S;
+  if(Object.values(S).some(v=>v===null))return['','Not done',"Answer all questions to get today's status."];
+  if(S.accept==='No'||S.urge==='Yes'||S.last==='Rule break'||S.sleep<=2||S.focus<=2)return['stop','No trade today','Close the platform. Backtest or journal instead.'];
+  if(S.last==='Loss'||S.stress==='High'||S.sleep===3||S.focus===3)return['wait','Reduced','Max 1 trade, half risk.'];
+  return['go','Clear to trade','Normal rules apply.'];
+}
+const DONE={psych:()=>{const l=light()[0];return !!l&&l!=='stop'&&!!E.risk.trim()},news:()=>E.ack2,
+  bias:()=>!!(E.F.bias&&E.F.Ait.trim()&&E.F.Bit.trim()),weak:()=>!!(E.W.wrong.trim()&&E.W.focus.trim()&&E.ack4)};
+const allDone=()=>Object.values(DONE).every(f=>f());
+const WS=[
+ {t:'Revenge after losses',r:'A loss is paid. After a stop: 15 minutes away from the screen. The next trade needs the full plan, or there is no next trade.',hot:()=>E.S.last==='Loss'||E.S.urge==='Yes',why:'Loss yesterday or urge to win back'},
+ {t:'FOMO after big moves',r:'Move missed = move missed. No chasing. Wait for the retrace into your level or do nothing.',hot:()=>false},
+ {t:'Skipping the DOL because the setup looks nice',r:'No draw on liquidity, no trade. A pretty setup without a target is a trap.',hot:()=>false},
+ {t:'Impatience and overrisk',r:'Risk is fixed at 1R and never goes up during the session. This cost you all 5 accounts.',hot:()=>E.S.last==='Rule break'||E.S.stress==='High',why:'Rule break yesterday or high stress'}];
+
+/* Local storage: IndexedDB, encrypted with a key derived from your password */
+const idb=(()=>{let p;const open=()=>p||(p=new Promise((res,rej)=>{const r=indexedDB.open('nq-desk',1);r.onupgradeneeded=()=>r.result.createObjectStore('days');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}));
+  const tx=(m,f)=>open().then(db=>new Promise((res,rej)=>{const t=db.transaction('days',m);const q=f(t.objectStore('days'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error);t.onabort=()=>rej(t.error)}));
+  return{get:k=>tx('readonly',s=>s.get(k)),put:(k,v)=>tx('readwrite',s=>s.put(v,k))}})();
+let EK=null,saveT=null;
+async function loadEntries(k){try{const rec=await idb.get(k);if(!rec)return blank();
+  const v=JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:rec.iv},EK,rec.ct)));const b=blank();
+  return{...b,...v,S:{...b.S,...v.S},F:{...b.F,...v.F},SH:{...b.SH,...v.SH},W:{...b.W,...v.W}}}catch(e){toast('Your entries for this day could not be opened.');return blank()}}
+function save(){setSaved('Saving…');clearTimeout(saveT);const k=selDate,snap=JSON.stringify(E);saveT=setTimeout(async()=>{
+  try{const iv=crypto.getRandomValues(new Uint8Array(12));const ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},EK,te.encode(snap));await idb.put(k,{iv,ct,at:Date.now()});setSaved('Saved')}
+  catch(e){setSaved('Not saved');toast('Saving failed. The browser storage may be full.')}},350)}
+function setSaved(t){const el=document.getElementById('saved');if(el){el.textContent=t;el.dataset.s=t}}
+
+/* ---- Views ---- */
+const next=(h,l)=>`<a class="next" href="#${h}">Continue to ${l} <span aria-hidden="true">→</span></a>`;
+const seg=(attr,key,opts,val,big)=>`<div class="seg${big?' big':''}" role="group">${opts.map(o=>`<button type="button" ${attr}="${key}" data-v="${o}" aria-pressed="${val===o}">${o}</button>`).join('')}</div>`;
+function stopBar(){return light()[0]==='stop'?`<div class="stopbar"><b>No trade today.</b> Step 2 says stop. Use the session for backtesting or your journal.</div>`:''}
+
+const RAIL={
+  psych(){const[c,v,t]=light();return `<div class="light ${c}"><div class="lab">Today's status</div><div class="v">${v}</div><p>${t}</p></div>
+    ${c&&c!=='stop'?(E.risk.trim()?next('news','News &amp; ICT Plan'):'<p class="hint">Enter your risk per trade to continue.</p>'):''}`},
+  news(){const i=D.ict||{};return `${notes()}<div class="rail-block mt"><h3>Bias of the briefing</h3><p>${esc(i.bias||'–')}</p></div>
+    <div class="rail-block"><h3>Today's events</h3>${todayList()}</div>
+    <label class="ack"><input type="checkbox" data-ack="ack2" ${E.ack2?'checked':''}> I know today's events and no-trade windows.</label>
+    ${E.ack2?next('bias','Daily Bias &amp; Scenarios'):''}`},
+  bias(){const F=E.F;return `<div class="note-box"><b>Your bias</b>${F.bias?esc(F.bias):'Not set'}</div>
+    <div class="note-box"><b>Scenario A</b>${F.Ait.trim()?esc(F.Ait):'Not set'}</div>
+    <div class="note-box"><b>Scenario B</b>${F.Bit.trim()?esc(F.Bit):'Not set'}</div>
+    ${DONE.bias()?next('weak','Weak Spots'):'<p class="hint">Set a bias and both if then scenarios to continue.</p>'}`},
+  weak(){const c=light()[0];const miss=[['psych','Psych Check'],['news','News'],['bias','Bias'],['weak','Weak Spots']].filter(([k])=>!DONE[k]()).map(([k,l])=>`<a href="#${k}">${l}</a>`);
+    return `<div class="note-box"><b>Status</b>${c?({go:'Clear to trade',wait:'Reduced · max 1 trade, half risk',stop:'No trade today'})[c]:'Step 2 open'}</div>
+    <div class="note-box"><b>Risk</b>${E.risk.trim()?esc(E.risk)+' per trade · max −2R':'Not set'}</div>
+    <div class="note-box"><b>Bias</b>${E.F.bias?esc(E.F.bias):'Not set'}</div>
+    <div class="note-box"><b>Watch today</b>${E.W.focus.trim()?esc(E.W.focus):'Not set'}</div>
+    ${c==='stop'?'<div class="go-card stop">No trade today. Close the platform.</div>':allDone()?'<div class="go-card">Routine complete. Trade your plan.</div>':`<p class="hint">Still open: ${miss.join(' · ')}</p>`}`}
+};
+function subNews(){const ov=D.overnight||{};
+  return `<div class="filters">
+      <div class="grp"><span>Period</span><button class="flt" data-day="woche" aria-pressed="${fDay==='woche'}">Full week</button><button class="flt" data-day="heute" aria-pressed="${fDay==='heute'}">Today only</button></div>
+      <div class="grp"><span>Impact</span><button class="flt" data-imp="alle" aria-pressed="${fImp==='alle'}">All</button><button class="flt" data-imp="hoch" aria-pressed="${fImp==='hoch'}">High only</button></div>
+    </div>${calTable()}${(D.impact_stats||{}).method?`<p class="byline">Actual impact method: ${esc(D.impact_stats.method)}</p>`:''}
+    ${ov.summary?`<h2 class="sec">Overnight</h2><div class="body"><p>${esc(ov.summary)}</p><ul>${(ov.bullets||[]).map(b=>`<li>${esc(b)}</li>`).join('')}</ul></div><h3 class="sub">Key levels NQ</h3>${levelsTable()}`:''}`}
+function subIct(){const i=D.ict||{};if(!i.narrative)return '<p class="muted mt">No ICT plan for this day.</p>';
+  return `<div class="body"><p>${esc(i.narrative)}</p><p><b>Draw on liquidity:</b> ${esc(i.dol)}</p>${i.week_profile?`<h2>This week through ICT's eyes</h2><p>${esc(i.week_profile)}</p>`:''}</div>
+    ${(i.news_view||[]).length?`<h2 class="sec">ICT read on the news</h2><div class="news-view">${i.news_view.map(n=>`<div class="nv ${/no trade/i.test(n.take)?'nt':''}"><div class="nv-when tnum">${esc(n.when)}</div><div><h3>${esc(n.event)}</h3><p>${esc(n.take)}</p><p class="nv-why"><b>Why:</b> ${esc(n.why)}</p></div></div>`).join('')}</div>`:''}
+    <div class="body"><h2>Scenarios of the briefing</h2><ul>${(i.scenarios||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></div>`}
+function subFund(){const e=D.earnings||{};
+  return `${(D.macro||[]).length?`<h2 class="sec">Macro &amp; politics</h2><div class="body">${D.macro.map(m=>`<h3 class="mh">${esc(m.title)}</h3><p>${esc(m.text)}</p>`).join('')}</div>`:''}
+    <h2 class="sec">Earnings yesterday after the close</h2>${erTable(e.yesterday)}
+    <h2 class="sec">Earnings today</h2>${erTable(e.today)}
+    <h2 class="sec">Coming up</h2><p class="byline">Release times in New York time. The call is when guidance usually moves the stock a second time.</p>${upTable(e.upcoming)}`}
+function subSrc(){return `<h2 class="sec">Live sources</h2><ul class="linklist">${LIVE.map(([t,s,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${t} <span aria-hidden="true">↗</span></a><small>${s}</small></li>`).join('')}</ul>
+    <h2 class="sec">References for this edition</h2><ul class="srclist">${(D.sources||[]).map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')||'<li class="muted">None.</li>'}</ul>`}
+
+const shot=(k,l)=>{const a=E.SH[k]||[];return `<span class="fl">${l}${a.length?` · ${a.length}`:''}</span><div class="shots">${a.map((u,i)=>`<figure class="thumb"><button type="button" class="zoom" data-zoom="${k}" data-i="${i}" aria-label="Enlarge ${l} ${i+1}"><img src="${u}" alt=""></button><button type="button" class="rm" data-rm="${k}" data-i="${i}" aria-label="Remove screenshot ${i+1}">Remove</button></figure>`).join('')}<div class="shot" data-shot="${k}" tabindex="0" role="button" aria-label="Add ${l} screenshot"><p><b>+ Add screenshot</b><br>Click here, then ⌘V · drop images · <label class="pick">choose files<input type="file" accept="image/*" multiple data-file="${k}" hidden></label></p></div></div>`};
+const fld=(grp,k,l,ph,rows)=>`<div class="fld"><label class="fl" for="${grp}-${k}">${l}</label>${rows?`<textarea id="${grp}-${k}" data-fld="${grp}" data-k="${k}" rows="${rows}" placeholder="${ph}">${esc(E[grp][k])}</textarea>`:`<input class="inp" id="${grp}-${k}" data-fld="${grp}" data-k="${k}" value="${esc(E[grp][k])}" placeholder="${ph}">`}</div>`;
+
 const V={
-  start(){
+  front(){
     const i=D.ict||{},ov=D.overnight||{},mk=(D.macro||[])[0]||{};
     const sc=(i.scenarios||[])[0]||'';
     return `<div class="front"><div>
       <article class="lead"><span class="kicker">Lead story · Bias: ${esc(i.bias||'–')}</span>
         <h1>${esc(headline())}</h1><p class="teaser">${esc(D.tldr)}</p>
-        <p class="byline">${esc(D.edition||'')} · ${stand()}</p></article>
-      <div class="stories">
-        <article class="story"><span class="kicker">Overnight</span><h2>${esc((ov.bullets||[])[0]||'The night in brief')}</h2><p>${esc(firstSentence(ov.summary))}</p><button class="go" data-go="overnight">Read more</button></article>
-        <article class="story"><span class="kicker">ICT-Plan</span><h2>${esc(i.bias||'Daily plan')}: target is ${esc((i.dol||'').split(',')[0])}</h2><p>${esc(sc)}</p><button class="go" data-go="ict">See the plan</button></article>
-        <article class="story"><span class="kicker">Makro & Politik</span><h2>${esc(mk.title||'')}</h2><p>${esc(firstSentence(mk.text))}</p><button class="go" data-go="makro">Read more</button></article>
+        <p class="byline">${[D.edition,stand()].filter(Boolean).map(esc).join(' · ')}</p></article>
+      ${noEd?'':`<div class="stories">
+        <article class="story"><span class="kicker">Overnight</span><h2>${esc((ov.bullets||[])[0]||'The night in brief')}</h2><p>${esc(firstSentence(ov.summary))}</p><a class="go" href="#news/news">Read more</a></article>
+        <article class="story"><span class="kicker">ICT Plan</span><h2>${esc(i.bias||'Daily plan')}: target is ${esc((i.dol||'').split(',')[0])}</h2><p>${esc(sc)}</p><a class="go" href="#news/ict">See the plan</a></article>
+        <article class="story"><span class="kicker">Macro &amp; Politics</span><h2>${esc(mk.title||'')}</h2><p>${esc(firstSentence(mk.text))}</p><a class="go" href="#news/fund">Read more</a></article>
       </div>
-      <div class="below"><span class="kicker">Companies</span><h2 style="font-size:22px;margin-bottom:4px">Earnings and price reactions</h2>${erTable([...((D.earnings||{}).yesterday||[]),...((D.earnings||{}).today||[])])}<h3 style="font-size:18px;margin:22px 0 0">Coming up</h3>${upTable((D.earnings||{}).upcoming)}</div>
-    <div class="below"><span class="kicker">Live</span><h2 style="font-size:22px;margin-bottom:4px">Top stories</h2><p class="byline" style="margin-top:2px">Market headlines from TradingView, updating by themselves.</p><div class="tv-news" id="tvnews"></div></div>
-    </div>${rail(`<div class="rail-block"><h3>Nasdaq 100 live</h3><div class="tv-info" id="tvinfo"></div><p class="byline" style="margin-top:6px">Index CFD. NQ futures trade a few points away from it.</p></div>`)}</div>`;
+      <div class="below"><span class="kicker">Companies</span><h2 class="bh">Earnings and price reactions</h2>${erTable([...((D.earnings||{}).yesterday||[]),...((D.earnings||{}).today||[])])}<h3 class="sub">Coming up</h3>${upTable((D.earnings||{}).upcoming)}</div>`}
+      <div class="below"><span class="kicker">Live</span><h2 class="bh">Top stories</h2><p class="byline">Market headlines from TradingView, updating by themselves.</p><div class="tv-news" id="tvnews"></div></div>
+      <div class="startcard"><div><span class="kicker">Pre-market routine</span><p>${allDone()?'Done for this day. Trade your plan.':'Four steps before the killzone: psych check, news, your bias, your weak spots.'}</p></div><a class="next" href="#psych">${allDone()?'Review routine':'Start routine'} <span aria-hidden="true">→</span></a></div>
+    </div>${rail(`<div class="rail-block"><h3>Nasdaq 100 live</h3><div class="tv-info" id="tvinfo"></div><p class="byline">Index CFD. NQ futures trade a few points away from it.</p></div>`)}</div>`;
   },
-  kalender(){
-    return `<div class="article"><div>${articleHead('News Calendar','Economic calendar for the week','All times in New York time (ET). Events in your killzone from 09:30 to 11:00 ET are marked in red. Actual impact shows how far NQ really moved in the first 30 minutes after past releases, compared with a normal 30 minutes at that time of day.')}
-      <div class="filters">
-        <div class="grp"><span>Period</span><button class="flt" data-day="woche" aria-pressed="${fDay==='woche'}">Full week</button><button class="flt" data-day="heute" aria-pressed="${fDay==='heute'}">Today only</button></div>
-        <div class="grp"><span>Impact</span><button class="flt" data-imp="alle" aria-pressed="${fImp==='alle'}">All</button><button class="flt" data-imp="hoch" aria-pressed="${fImp==='hoch'}">High only</button></div>
-      </div>${calTable()}${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
+  psych(){
+    return head('Step 2 · Routine','Psych Check &amp; Risk','Check your state first. If the light is red, the routine ends here.')+`<div class="article"><div>
+      <h2 class="sec">Psych check</h2>
+      ${Q.map(([id,l,s,opts])=>`<div class="q"><div class="ql">${l}<small>${s}</small></div>${seg('data-q',id,opts,E.S[id])}</div>`).join('')}
+      <h2 class="sec">Risk</h2>
+      <div class="q"><label class="ql" for="risk">Risk per trade (1R)<small>Enter it yourself every day</small></label><input class="inp rk" id="risk" data-risk value="${esc(E.risk)}" placeholder="e.g. $400" autocomplete="off"></div>
+      <ul class="rules"><li>Max daily loss <b>−2R</b></li><li>Max trades per day <b>2</b></li><li>Stop for the day <b>after +2R or 2 wins</b></li></ul>
+    </div><aside class="rail">${RAIL.psych()}</aside></div>`;
   },
-  ict(){
-    const i=D.ict||{};
-    return `<div class="article"><div>${articleHead('ICT Plan · NY AM Killzone',`Bias: ${i.bias||'–'}`,i.dol?`Draw on liquidity: ${i.dol}`:'')}
-      <div class="body"><p>${esc(i.narrative)}</p>${i.week_profile?`<h2>This week through ICT's eyes</h2><p>${esc(i.week_profile)}</p>`:''}${(i.news_view||[]).length?`<h2>ICT read on the news</h2><div class="news-view">${i.news_view.map(n=>`<div class="nv ${/no trade/i.test(n.take)?'nt':''}"><div class="nv-when tnum">${esc(n.when)}</div><div><h3>${esc(n.event)}</h3><p>${esc(n.take)}</p><p class="nv-why"><b>Why:</b> ${esc(n.why)}</p></div></div>`).join('')}</div>`:''}<h2>Scenarios</h2><ul>${(i.scenarios||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
-      <h2>Execution process</h2><ol class="steps"><li><b>Step 1: Create your daily bias.</b> Higher-timeframe narrative and draw on liquidity.</li><li><b>Step 2: Create 2 scenarios on the 15m timeframe.</b> If this happens, then that. One for each side.</li><li><b>Step 3: Execute on the 1m timeframe.</b> Entry on Turtle Soup, the first presented FVG or displacement.</li></ol><h2>Risk plan</h2><ul><li>Max 2 trades per day, max −2R per day.</li><li>Stop after one +2R win or after 2 wins.</li><li>Minimum 1:1 RR, stop at the swing high or low.</li><li>No entry within 5 minutes of a high-impact release.</li></ul></div>
-      </div>${rail()}</div>`;
+  news(){
+    const body={news:subNews,ict:subIct,fund:subFund,src:subSrc}[sub]();
+    return stopBar()+head('Step 3 · Routine','News &amp; ICT Plan',headline(),true)+`<div class="subtabs" role="tablist">${SUBS.map(([k,l])=>`<a role="tab" href="#news/${k}" aria-selected="${sub===k}">${l}</a>`).join('')}</div>
+      <div class="article"><div>${body}</div><aside class="rail">${RAIL.news()}</aside></div>`;
   },
-  overnight(){
-    const ov=D.overnight||{};
-    return `<div class="article"><div>${articleHead('Overnight',headline(),firstSentence(D.tldr))}
-      <div class="body"><p>${esc(ov.summary)}</p><h2>Key points</h2><ul>${(ov.bullets||[]).map(b=>`<li>${esc(b)}</li>`).join('')}</ul></div>
-      </div>${rail()}</div>`;
+  bias(){const F=E.F;
+    const sc=x=>`<section class="sc"><h2 class="sec">Scenario ${x}</h2>${shot('s'+x,'15m charts')}
+      ${fld('F',x+'it','If then','e.g. If price sweeps the Asia low and displaces up, then I look for longs toward PDH.',3)}
+      ${fld('F',x+'tgt','Target','e.g. PDH at 28,800, partials at the NY midnight open')}
+      ${fld('F',x+'inv','Invalidation','e.g. 15m close back below the Asia low, scenario is off')}</section>`;
+    return stopBar()+head('Step 4 · Routine','Daily Bias &amp; Scenarios','Your own read, before the open. Build it from the chart, not from the news.')+`<div class="article"><div>
+      <h2 class="sec">Daily bias</h2>${shot('bias','Higher timeframe charts')}
+      ${seg('data-bias','b',['Bullish','Bearish','Neutral'],F.bias,true)}
+      ${fld('F','narr','HTF narrative','What is price doing on the daily and 4H?',3)}
+      ${sc('A')}${sc('B')}
+    </div><aside class="rail">${RAIL.bias()}</aside></div>`;
   },
-  earnings(){
-    const e=D.earnings||{};
-    return `<div class="article"><div>${articleHead('Companies','Earnings and Big Tech','Price reactions after and before the bell. AMC means results after the US market close.')}
-      <h2 style="font-size:22px;margin-top:22px">Yesterday after the close</h2>${erTable(e.yesterday)}
-      <h2 style="font-size:22px;margin-top:28px">Today</h2>${erTable(e.today)}<h2 style="font-size:22px;margin-top:28px">Coming up</h2><p class="byline" style="margin-top:2px">Release times in New York time. The call is when guidance usually moves the stock a second time.</p>${upTable(e.upcoming)}</div>${rail()}</div>`;
-  },
-  makro(){
-    return `<div class="article"><div>${articleHead('Macro & Politics','The state of the markets','')}
-      <div class="body">${(D.macro||[]).map(m=>`<h2>${esc(m.title)}</h2><p>${esc(m.text)}</p>`).join('')}</div></div>${rail()}</div>`;
-  },
-  quellen(){
-    return `<div class="article"><div>${articleHead('Sources','Live sources and references','Use the live sources for anything that changes by the minute. The references for this edition are listed below.')}
-      <ul class="linklist">${LIVE.map(([t,s,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${t}</a><small>${s}</small></li>`).join('')}</ul>
-      <h2 style="font-size:22px;margin-top:30px">References for this edition</h2>
-      <ul class="srclist">${(D.sources||[]).map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')}</ul></div>${rail()}</div>`;
+  weak(){
+    const ws=WS.map(w=>({...w,h:w.hot()})).sort((a,b)=>b.h-a.h);
+    return stopBar()+head('Step 5 · Routine','Weak Spots','Look back once, then decide what you watch today. Short and honest.')+`<div class="article"><div>
+      <h2 class="sec">Last session</h2>
+      ${fld('W','wrong','What went wrong?','e.g. Entered before the 15m close because I was afraid to miss the move.',3)}
+      ${fld('W','lesson','What will you do differently?','e.g. I wait for the candle to close, every time.',2)}
+      <h2 class="sec">Today</h2>
+      ${fld('W','focus','What do you watch out for today?','e.g. NFP week, no chasing the London high. One trade, then the laptop closes.',3)}
+      <h2 class="sec">Your four weak spots</h2>
+      <ol class="ws">${ws.map(w=>`<li class="${w.h?'hot':''}"><b>${w.t}</b>${w.h?`<span class="flag">${w.why}</span>`:''}<p>${w.r}</p></li>`).join('')}</ol>
+      <label class="ack"><input type="checkbox" data-ack="ack4" ${E.ack4?'checked':''}> I read my weak spots and I trade only my plan today.</label>
+    </div><aside class="rail">${RAIL.weak()}</aside></div>`;
   }
 };
 
-const cur=()=>{const h=location.hash.slice(1);return RES.some(r=>r[0]===h)?h:'start'};
-function show(){const id=cur();
-  document.querySelectorAll('.res').forEach(b=>b.toggleAttribute('aria-current',false)||b.dataset.go===id&&b.setAttribute('aria-current','page'));
-  document.getElementById('main').innerHTML=V[id]();if(id==='start'){mountInfo();mountNews();}}
-document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-day],[data-imp]');if(!t)return;
-  if(t.dataset.go){location.hash=t.dataset.go==='start'?'':t.dataset.go;if(t.dataset.go==='start')show();window.scrollTo(0,0);return}
-  if(t.dataset.day){fDay=t.dataset.day;show()} if(t.dataset.imp){fImp=t.dataset.imp;show()}});
-addEventListener('hashchange',show);
+/* ---- Rendering and navigation ---- */
+let tab='front',sub='news',activeShot=null;
+function renderNav(){document.getElementById('nav').innerHTML=TABS.map(([k,l],i)=>{const d=i&&DONE[k]();
+  return `<a class="res${d?' done':''}" href="#${k}${k==='news'?'/'+sub:''}" ${tab===k?'aria-current="page"':''}><span class="n" aria-hidden="true">${d?'✓':i+1}</span>${l}${d?'<span class="sr"> (done)</span>':''}</a>`}).join('')}
+function renderBar(){
+  const age=noEd?null:(Date.now()-new Date(D.updated_at).getTime())/3.6e6;
+  document.getElementById('state').innerHTML=noEd?'<b>No briefing archived</b>':isToday()?`<b>${esc(D.edition||'Edition')}</b> · ${age<8?'current':'older than 8 hours'} · Next edition ${nextUpd()}`:`<b>Archive</b> · ${esc(D.edition||'')}`;
+  const t=today();
+  document.getElementById('ticker').innerHTML=`<span class="lab">${isToday()?'Today':esc(fmtDay(selDate,{weekday:'short',day:'numeric',month:'short'}))}</span>`+(t.length?t.map(e=>`<span class="${isKz(e)?'kz':''}"><span class="t tnum">${esc(e.time)}</span>${esc(e.event)}</span>`).join(''):'<span>No events</span>')+
+    ((D.calendar||[]).filter(e=>/no-trade/i.test(e.note||'')).map(e=>`<span class="kz"><span class="t">${esc(e.day)}</span>${esc(e.event)}: do not trade</span>`).join(''));
+  document.getElementById('dpick').value=selDate;document.getElementById('dpick').max=nyKey();
+  document.getElementById('dnext').disabled=isToday();
+  document.getElementById('dtoday').hidden=isToday();
+  document.getElementById('archbar').hidden=isToday();
+  document.getElementById('archbar').innerHTML=`<div class="wrap">You are looking at <b>${esc(fmtDay(selDate))}</b>. Your entries for this day are saved as well. <a href="#" data-today>Back to today</a></div>`;
+}
+function render(navigated,scroll=true){
+  renderNav();const m=document.getElementById('main');m.innerHTML=V[tab]();
+  if(tab==='front'){mountInfo();mountNews()}
+  markShot();
+  document.querySelector('.res[aria-current]')?.scrollIntoView({block:'nearest',inline:'center'});
+  if(navigated){m.classList.remove('enter');void m.offsetWidth;m.classList.add('enter');if(scroll)window.scrollTo({top:0,behavior:'instant'});document.title=(tab==='front'?'':TABS.find(t=>t[0]===tab)[1]+' · ')+'NQ Desk'}
+}
+function refresh(){renderNav();const r=document.querySelector('main .rail');if(r&&RAIL[tab])r.innerHTML=RAIL[tab]()}
+function route(){const[t,s]=location.hash.slice(1).split('/');const nt=TABS.some(x=>x[0]===t)?t:'front';
+  const tabChanged=nt!==tab;if(nt==='news'&&SUBS.some(x=>x[0]===s))sub=s;tab=nt;if(D)render(true,tabChanged)}
+addEventListener('hashchange',route);
+const markShot=()=>document.querySelectorAll('.shot').forEach(x=>x.classList.toggle('on',x.dataset.shot===activeShot));
 
-document.getElementById('today').textContent=berlin().long;
-document.getElementById('nav').innerHTML=RES.map(([id,l])=>`<button class="res" data-go="${id}">${l}</button>`).join('');
+/* Screenshots: downscaled to max 2400px wide and stored as WebP */
+function addShots(k,files){[...files].filter(f=>f&&f.type.startsWith('image/')).forEach(file=>{
+  const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const s=Math.min(1,2400/img.width),c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);(E.SH[k]=E.SH[k]||[]).push(c.toDataURL('image/webp',.9));save();render();toast('Screenshot added')};img.src=url})}
+
+function toast(msg,undo){const t=document.getElementById('toast');t.innerHTML=`<span>${esc(msg)}</span>${undo?'<button type="button" id="undo">Undo</button>':''}`;t.classList.add('on');
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),undo?6000:2200);if(undo)document.getElementById('undo').onclick=()=>{undo();t.classList.remove('on')}}
+function lightbox(k,i){const a=E.SH[k]||[];if(!a[i])return;const lb=document.getElementById('lb');lb.dataset.k=k;lb.dataset.i=i;
+  lb.innerHTML=`<img src="${a[i]}" alt="Screenshot ${i+1} of ${a.length}"><div class="lb-bar"><span>${i+1} / ${a.length}</span>${a.length>1?'<button type="button" data-lb="-1" aria-label="Previous">←</button><button type="button" data-lb="1" aria-label="Next">→</button>':''}<button type="button" data-lb="x">Close (Esc)</button></div>`;
+  if(!lb.open)lb.showModal()}
+
+document.addEventListener('click',e=>{
+  const t=e.target;
+  const q=t.closest('[data-q]');if(q){const v=isNaN(+q.dataset.v)?q.dataset.v:+q.dataset.v;E.S[q.dataset.q]=E.S[q.dataset.q]===v?null:v;save();render();return}
+  const bi=t.closest('[data-bias]');if(bi){E.F.bias=E.F.bias===bi.dataset.v?'':bi.dataset.v;save();render();return}
+  const rm=t.closest('[data-rm]');if(rm){const k=rm.dataset.rm,i=+rm.dataset.i,old=E.SH[k][i];E.SH[k].splice(i,1);save();render();toast('Screenshot removed',()=>{E.SH[k].splice(i,0,old);save();render()});return}
+  const z=t.closest('[data-zoom]');if(z){lightbox(z.dataset.zoom,+z.dataset.i);return}
+  const lb=t.closest('[data-lb]');if(lb){const d=document.getElementById('lb');if(lb.dataset.lb==='x')d.close();else{const a=E.SH[d.dataset.k];lightbox(d.dataset.k,((+d.dataset.i+ +lb.dataset.lb)%a.length+a.length)%a.length)}return}
+  if(t.id==='lb'){t.close();return}
+  const sh=t.closest('[data-shot]');if(sh&&!t.closest('.pick')){activeShot=sh.dataset.shot;markShot();toast('Now press ⌘V to paste');}
+  else if(!t.closest('.shot')&&activeShot&&!t.closest('#toast')){activeShot=null;markShot()}
+  const f=t.closest('[data-day],[data-imp]');if(f){if(f.dataset.day)fDay=f.dataset.day;if(f.dataset.imp)fImp=f.dataset.imp;render();return}
+  if(t.closest('[data-today]')){e.preventDefault();pickDate(nyKey());return}
+  if(t.id==='dprev')pickDate(shiftDay(selDate,-1));
+  if(t.id==='dnext'&&!isToday())pickDate(shiftDay(selDate,1));
+  if(t.id==='dtoday')pickDate(nyKey());
+});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.ack){E[t.dataset.ack]=t.checked;save();refresh();if(t.checked&&t.dataset.ack==='ack4'&&allDone())toast('Routine complete');return}
+  if(t.dataset.file){addShots(t.dataset.file,t.files);t.value='';return}
+  if(t.id==='dpick'&&t.value)pickDate(t.value>nyKey()?nyKey():t.value);
+});
+document.addEventListener('input',e=>{const t=e.target;
+  if('risk' in t.dataset){E.risk=t.value}else if(t.dataset.fld){E[t.dataset.fld][t.dataset.k]=t.value}else return;
+  save();refresh()});
+document.addEventListener('paste',e=>{const it=[...((e.clipboardData||{}).items||[])].find(i=>i.type.startsWith('image/'));if(!it)return;
+  if(!activeShot){if(tab==='bias'){e.preventDefault();toast('Click a screenshot box first, then paste')}return}
+  e.preventDefault();addShots(activeShot,[it.getAsFile()])});
+document.addEventListener('dragover',e=>{const s=e.target.closest('.shot');if(s){e.preventDefault();s.classList.add('drag')}});
+document.addEventListener('dragleave',e=>{const s=e.target.closest('.shot');if(s)s.classList.remove('drag')});
+document.addEventListener('drop',e=>{const s=e.target.closest('.shot');if(!s)return;e.preventDefault();s.classList.remove('drag');addShots(s.dataset.shot,e.dataTransfer.files)});
+document.addEventListener('keydown',e=>{
+  const typing=/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)||e.target.isContentEditable;
+  const lb=document.getElementById('lb');if(lb.open&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();lb.querySelector(`[data-lb="${e.key==='ArrowLeft'?-1:1}"]`)?.click();return}
+  if(e.key==='Enter'&&e.target.matches('.shot')){activeShot=e.target.dataset.shot;markShot();toast('Now press ⌘V to paste');return}
+  if(typing||e.metaKey||e.ctrlKey||e.altKey||!D)return;
+  const i=TABS.findIndex(t=>t[0]===tab);
+  if(e.key==='ArrowRight'&&i<TABS.length-1)location.hash=TABS[i+1][0];
+  else if(e.key==='ArrowLeft'&&i>0)location.hash=TABS[i-1][0]==='front'?'front':TABS[i-1][0];
+  else if(/^[1-5]$/.test(e.key))location.hash=TABS[+e.key-1][0];
+});
 
 /* ---- Lock: content is stored encrypted (ECDH P-256 + AES-GCM); the password unlocks the private key in this browser only ---- */
 const te=new TextEncoder(),td=new TextDecoder();
 const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+let PRIV=null;
 async function unlock(pw){
-  const [K,E]=await Promise.all([fetch('./keys.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('keys '+r.status);return r.json()}),
-                                  fetch('./data.enc.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('data '+r.status);return r.json()})]);
-  const base=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);
+  const K=await fetch('./keys.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('keys '+r.status);return r.json()});
+  const base=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey','deriveBits']);
   const wk=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(K.priv.salt),iterations:K.priv.iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
   let privJwk;
   try{privJwk=JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(K.priv.iv)},wk,b64d(K.priv.ct))))}catch(e){throw new Error('wrong')}
-  const priv=await crypto.subtle.importKey('jwk',privJwk,{name:'ECDH',namedCurve:'P-256'},false,['deriveBits']);
-  const epk=await crypto.subtle.importKey('jwk',E.epk,{name:'ECDH',namedCurve:'P-256'},false,[]);
-  const bits=await crypto.subtle.deriveBits({name:'ECDH',public:epk},priv,256);
+  PRIV=await crypto.subtle.importKey('jwk',privJwk,{name:'ECDH',namedCurve:'P-256'},false,['deriveBits']);
+  /* separate key for your own entries, derived from the private key */
+  const bits=await crypto.subtle.deriveBits({name:'ECDH',public:await crypto.subtle.importKey('jwk',K.pub,{name:'ECDH',namedCurve:'P-256'},false,[])},PRIV,256);
   const hk=await crypto.subtle.importKey('raw',bits,'HKDF',false,['deriveKey']);
-  const dk=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:b64d(E.salt),info:te.encode('nq-desk-v1')},hk,{name:'AES-GCM',length:256},false,['decrypt']);
-  return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(E.iv)},dk,b64d(E.ct))));
+  EK=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:te.encode('nq-desk-entries'),info:te.encode('entries-v1')},hk,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
 }
+async function decryptEnc(X){
+  const epk=await crypto.subtle.importKey('jwk',X.epk,{name:'ECDH',namedCurve:'P-256'},false,[]);
+  const bits=await crypto.subtle.deriveBits({name:'ECDH',public:epk},PRIV,256);
+  const hk=await crypto.subtle.importKey('raw',bits,'HKDF',false,['deriveKey']);
+  const dk=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:b64d(X.salt),info:te.encode('nq-desk-v1')},hk,{name:'AES-GCM',length:256},false,['decrypt']);
+  return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(X.iv)},dk,b64d(X.ct))));
+}
+const getEnc=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null);
+async function loadEdition(k){
+  if(k===nyKey()){const x=await getEnc('./data.enc.json');if(x)return decryptEnc(x)}
+  const a=await getEnc(`./archive/${k}.enc.json`);if(a)return decryptEnc(a);
+  const x=await getEnc('./data.enc.json');if(x){const d=await decryptEnc(x);if(nyKey(new Date(d.updated_at))===k)return d}
+  return null;
+}
+let loadSeq=0;
+async function pickDate(k){
+  if(saveT){clearTimeout(saveT);saveT=null;const iv=crypto.getRandomValues(new Uint8Array(12));try{await idb.put(selDate,{iv,ct:await crypto.subtle.encrypt({name:'AES-GCM',iv},EK,te.encode(JSON.stringify(E))),at:Date.now()})}catch(e){}}
+  const my=++loadSeq;selDate=k;document.body.classList.add('busy');
+  const [d,en]=await Promise.all([loadEdition(k),loadEntries(k)]);if(my!==loadSeq)return;
+  D=d||EMPTY;noEd=!d;E=en;activeShot=null;document.body.classList.remove('busy');setSaved('');
+  renderBar();render(true);
+}
+function lockScreen(msg){
+  document.getElementById('main').innerHTML=`<div class="lock"><h1>NQ Desk is locked</h1><p>Enter your password to open today's edition.</p>
+  <form id="lockf" autocomplete="on"><input type="text" name="username" value="nq-desk" autocomplete="username" hidden>
+  <label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required autofocus>
+  <button type="submit">Unlock</button><p class="lock-msg" id="lockmsg">${msg||''}</p></form></div>`;
+  document.getElementById('pw').focus();
+}
+document.addEventListener('submit',async e=>{if(e.target.id!=='lockf')return;e.preventDefault();
+  const pw=document.getElementById('pw').value,m=document.getElementById('lockmsg'),b=e.target.querySelector('button');b.disabled=true;m.textContent='Unlocking…';
+  try{await unlock(pw);document.body.classList.add('open');setTimeout(mountTape,0);const[t,s]=location.hash.slice(1).split('/');if(TABS.some(x=>x[0]===t))tab=t;if(SUBS.some(x=>x[0]===s))sub=s;await pickDate(nyKey())}
+  catch(err){b.disabled=false;m.textContent=err.message==='wrong'?'Wrong password. Try again.':'The edition could not be loaded ('+err.message+'). Reload the page.'}});
 
 /* ---- Live TradingView widgets, loaded only after unlock ---- */
 function mountTV(el,file,cfg){if(!el)return;el.innerHTML='';const w=document.createElement('div');w.className='tradingview-widget-container';
@@ -364,25 +678,6 @@ function mountTape(){mountTV(document.getElementById('tvtape'),'embed-widget-tic
   showSymbolLogo:false,isTransparent:true,displayMode:'adaptive',colorTheme:'light',locale:'en'})}
 function mountInfo(){mountTV(document.getElementById('tvinfo'),'embed-widget-symbol-info.js',{symbol:'PEPPERSTONE:NAS100',width:'100%',locale:'en',colorTheme:'light',isTransparent:true})}
 function mountNews(){mountTV(document.getElementById('tvnews'),'embed-widget-timeline.js',{feedMode:'market',market:'index',isTransparent:true,displayMode:'regular',width:'100%',height:560,colorTheme:'light',locale:'en'})}
-function start(d){setTimeout(mountTape,0);
-  D=d;
-  const age=(Date.now()-new Date(d.updated_at).getTime())/3.6e6;
-  document.getElementById('state').innerHTML=`<b>${esc(d.edition||'Edition')}</b> · ${age<8?'current':'older than 8 hours'} · Next edition ${nextUpd()}`;
-  const t=today();
-  document.getElementById('ticker').innerHTML=`<span class="lab">Today</span>`+(t.length?t.map(e=>`<span class="${isKz(e)?'kz':''}"><span class="t tnum">${esc(e.time)}</span>${esc(e.event)}</span>`).join(''):'<span>No events</span>')+
-    ((D.calendar||[]).filter(e=>/no-trade/i.test(e.note||'')).map(e=>`<span class="kz"><span class="t">${esc(e.day)}</span>${esc(e.event)}: do not trade</span>`).join(''));
-  show();
-}
-function lockScreen(msg){
-  document.getElementById('main').innerHTML=`<div class="lock"><h1>NQ Desk is locked</h1><p>Enter your password to open today's edition.</p>
-  <form id="lockf" autocomplete="on"><input type="text" name="username" value="nq-desk" autocomplete="username" hidden>
-  <label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required autofocus>
-  <button type="submit">Unlock</button><p class="lock-msg" id="lockmsg">${msg||''}</p></form></div>`;
-  document.getElementById('pw').focus();
-}
-document.addEventListener('submit',async e=>{if(e.target.id!=='lockf')return;e.preventDefault();
-  const pw=document.getElementById('pw').value,m=document.getElementById('lockmsg'),b=e.target.querySelector('button');b.disabled=true;m.textContent='Unlocking…';
-  try{const d=await unlock(pw);start(d)}catch(err){b.disabled=false;m.textContent=err.message==='wrong'?'Wrong password. Try again.':'The edition could not be loaded ('+err.message+'). Reload the page.'}});
 lockScreen();
 </script>
 </body>
