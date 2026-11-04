@@ -128,6 +128,8 @@ main.wrap{padding-top:28px;padding-bottom:48px}
 .lock button{font:inherit;font-weight:700;background:var(--ink);color:var(--paper);padding:10px 18px}
 .lock button:disabled{opacity:.5}
 .lock-msg{margin-top:12px;color:var(--kicker)!important;font-size:14.5px}
+.tv-tape{border-bottom:1px solid var(--rule);min-height:46px}
+.tv-cal{margin-top:12px;border-top:2px solid var(--ink);padding-top:6px;min-height:520px}
 /* Tabellen */
 .filters{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 8px;font-size:14.5px}
 .filters .grp{display:flex;gap:4px;align-items:center}
@@ -174,6 +176,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   <div class="claim">The morning briefing for Nasdaq futures traders</div>
 </header>
 <nav class="ressorts" aria-label="Sections"><div class="wrap" id="nav"></div></nav>
+<div class="tv-tape" id="tvtape" aria-label="Live prices"></div>
 <div class="ticker"><div class="wrap" id="ticker"></div></div>
 <main class="wrap" id="main"><div class="loading">Loading edition…</div></main>
 <footer><div class="wrap"><span>All times New York (ET) · New editions every weekday before the London open and before the NY open</span><span>Not investment advice</span></div></footer>
@@ -285,7 +288,7 @@ const V={
       <div class="filters">
         <div class="grp"><span>Period</span><button class="flt" data-day="woche" aria-pressed="${fDay==='woche'}">Full week</button><button class="flt" data-day="heute" aria-pressed="${fDay==='heute'}">Today only</button></div>
         <div class="grp"><span>Impact</span><button class="flt" data-imp="alle" aria-pressed="${fImp==='alle'}">All</button><button class="flt" data-imp="hoch" aria-pressed="${fImp==='hoch'}">High only</button></div>
-      </div>${calTable()}${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
+      </div>${calTable()}<h2 style="font-size:22px;margin-top:34px">Live calendar</h2><p class="byline" style="margin-top:2px">TradingView, updates by itself with actual values. US high and medium impact only. Times follow your computer's time zone.</p><div class="tv-cal" id="tvcal"></div>${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
   },
   ict(){
     const i=D.ict||{};
@@ -321,7 +324,7 @@ const V={
 const cur=()=>{const h=location.hash.slice(1);return RES.some(r=>r[0]===h)?h:'start'};
 function show(){const id=cur();
   document.querySelectorAll('.res').forEach(b=>b.toggleAttribute('aria-current',false)||b.dataset.go===id&&b.setAttribute('aria-current','page'));
-  document.getElementById('main').innerHTML=V[id]();}
+  document.getElementById('main').innerHTML=V[id]();if(id==='kalender')mountCal();}
 document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-day],[data-imp]');if(!t)return;
   if(t.dataset.go){location.hash=t.dataset.go==='start'?'':t.dataset.go;if(t.dataset.go==='start')show();window.scrollTo(0,0);return}
   if(t.dataset.day){fDay=t.dataset.day;show()} if(t.dataset.imp){fImp=t.dataset.imp;show()}});
@@ -347,7 +350,17 @@ async function unlock(pw){
   const dk=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:b64d(E.salt),info:te.encode('nq-desk-v1')},hk,{name:'AES-GCM',length:256},false,['decrypt']);
   return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(E.iv)},dk,b64d(E.ct))));
 }
-function start(d){
+
+/* ---- Live TradingView widgets, loaded only after unlock ---- */
+function mountTV(el,file,cfg){if(!el)return;el.innerHTML='';const w=document.createElement('div');w.className='tradingview-widget-container';
+  const inner=document.createElement('div');inner.className='tradingview-widget-container__widget';w.appendChild(inner);
+  const sc=document.createElement('script');sc.src='https://s3.tradingview.com/external-embedding/'+file;sc.async=true;sc.textContent=JSON.stringify(cfg);w.appendChild(sc);el.appendChild(w)}
+function mountTape(){mountTV(document.getElementById('tvtape'),'embed-widget-ticker-tape.js',{symbols:[
+  {proName:'CME_MINI:NQ1!',title:'NQ'},{proName:'CME_MINI:ES1!',title:'ES'},{proName:'TVC:DXY',title:'DXY'},
+  {proName:'TVC:US10Y',title:'US 10Y'},{proName:'TVC:VIX',title:'VIX'},{proName:'NYMEX:CL1!',title:'Crude'},{proName:'COMEX:GC1!',title:'Gold'}],
+  showSymbolLogo:false,isTransparent:true,displayMode:'adaptive',colorTheme:'light',locale:'en'})}
+function mountCal(){mountTV(document.getElementById('tvcal'),'embed-widget-events.js',{colorTheme:'light',isTransparent:true,width:'100%',height:520,locale:'en',importanceFilter:'0,1',countryFilter:'us'})}
+function start(d){setTimeout(mountTape,0);
   D=d;
   const age=(Date.now()-new Date(d.updated_at).getTime())/3.6e6;
   document.getElementById('state').innerHTML=`<b>${esc(d.edition||'Edition')}</b> · ${age<8?'current':'older than 8 hours'} · Next edition ${nextUpd()}`;
