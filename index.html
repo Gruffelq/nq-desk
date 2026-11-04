@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NQ Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: Zeitungs-Startseite. Masthead, Ressort-Leiste, Aufmacher, darunter Artikelspalten mit rechter Randspalte */
+  --paper:#ffffff; --ink:#121212; --ink-2:#4a4a4a; --ink-3:#7a7a7a;
+  --rule:#d9d9d9; --rule-strong:#121212; --kicker:#a3121f; --tint:#f5f5f3;
+  --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --sans:'Source Sans 3','Helvetica Neue',Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;cursor:pointer;background:none;border:0;color:inherit}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;text-wrap:balance;letter-spacing:-.005em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* Masthead */
+.utility{border-bottom:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+.utility .wrap{display:flex;justify-content:space-between;gap:16px;padding-top:8px;padding-bottom:8px;flex-wrap:wrap}
+.utility b{color:var(--ink);font-weight:600}
+.mast{padding:22px 0 16px;text-align:center}
+.mast .name{font-family:var(--serif);font-weight:700;font-size:44px;letter-spacing:-.02em;line-height:1}
+.mast .claim{font-size:13px;color:var(--ink-3);margin-top:6px;letter-spacing:.02em}
+nav.ressorts{border-top:3px double var(--rule-strong);border-bottom:1px solid var(--rule-strong);position:sticky;top:0;background:var(--paper);z-index:5}
+nav.ressorts .wrap{display:flex;justify-content:center;gap:2px;overflow-x:auto;scrollbar-width:none}
+.res{padding:11px 14px;font-size:14.5px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-1px}
+.res:hover{text-decoration:underline;text-underline-offset:4px}
+.res[aria-current="page"]{border-bottom-color:var(--ink)}
+
+/* Laufband */
+.ticker{border-bottom:1px solid var(--rule);font-size:14px}
+.ticker .wrap{display:flex;gap:22px;align-items:center;padding-top:9px;padding-bottom:9px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.ticker .lab{font-weight:700;color:var(--kicker);text-transform:uppercase;font-size:12.5px;letter-spacing:.06em}
+.ticker span.t{font-weight:700;margin-right:5px}
+.ticker .kz{color:var(--kicker)}
+
+main.wrap{padding-top:28px;padding-bottom:48px}
+.kicker{font-size:12.5px;font-weight:700;color:var(--kicker);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;display:block}
+.byline{font-size:13px;color:var(--ink-3);margin-top:10px}
+
+/* Startseite */
+.front{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0 36px}
+@media(max-width:960px){.front{grid-template-columns:1fr}}
+.lead{padding-bottom:24px;border-bottom:1px solid var(--rule)}
+.lead h1{font-size:40px;line-height:1.12;max-width:30ch}
+.lead .teaser{font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--ink-2);margin-top:14px;max-width:62ch}
+.stories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+@media(max-width:760px){.stories{grid-template-columns:1fr}.lead h1{font-size:30px}}
+.story{padding:20px 20px 22px;border-right:1px solid var(--rule)}
+.story:first-child{padding-left:0} .story:last-child{border-right:0;padding-right:0}
+@media(max-width:760px){.story{padding:18px 0;border-right:0;border-bottom:1px solid var(--rule)}}
+.story h2{font-size:21px;line-height:1.2;margin-bottom:8px}
+.story p{font-size:15px;color:var(--ink-2)}
+.story .go{display:inline-block;margin-top:10px;font-size:14px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.below{border-top:1px solid var(--rule-strong);margin-top:4px;padding-top:18px}
+
+/* Randspalte */
+.rail{border-left:1px solid var(--rule);padding-left:24px}
+@media(max-width:960px){.rail{border-left:0;padding-left:0;border-top:1px solid var(--rule-strong);margin-top:24px;padding-top:18px}}
+.rail-block{padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid var(--rule)}
+.rail-block:last-child{border-bottom:0}
+.rail h3{font-family:var(--sans);font-size:13px;text-transform:uppercase;letter-spacing:.07em;border-top:3px solid var(--ink);padding-top:8px;margin-bottom:10px}
+.rail-list{list-style:none}
+.rail-list li{display:grid;grid-template-columns:52px 1fr;gap:8px;padding:8px 0;border-bottom:1px dotted var(--rule);font-size:14.5px}
+.rail-list li:last-child{border-bottom:0}
+.rail-list .t{font-weight:700}
+.rail-list .kz .t{color:var(--kicker)}
+.rail-list small{display:block;color:var(--ink-3);font-size:12.5px}
+.lv{width:100%;border-collapse:collapse;font-size:14.5px}
+.lv td{padding:7px 0;border-bottom:1px dotted var(--rule)}
+.lv tr:last-child td{border-bottom:0}
+.lv td.v{text-align:right;font-weight:700;white-space:nowrap;padding-left:10px}
+.note-box{background:var(--tint);padding:14px 16px;font-size:14.5px}
+.note-box b{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.note-box.warn b{color:var(--kicker)}
+.note-box + .note-box{margin-top:10px}
+
+/* Artikelseiten */
+.article{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0 36px}
+@media(max-width:960px){.article{grid-template-columns:1fr}}
+.article h1{font-size:34px;line-height:1.15;max-width:24ch}
+.article .standfirst{font-family:var(--serif);font-size:18.5px;color:var(--ink-2);margin-top:12px;max-width:62ch}
+.body{font-family:var(--serif);font-size:18px;line-height:1.65;margin-top:22px;max-width:66ch}
+.body p{margin-bottom:16px}
+.body h2{font-size:22px;margin:26px 0 8px}
+.body ul,.body ol{margin:0 0 16px 22px} .body li{margin-bottom:8px}
+.steps li{margin-bottom:12px}
+.head-rule{border-bottom:1px solid var(--rule);padding-bottom:20px}
+
+.news-view{border-top:1px solid var(--ink);margin-bottom:8px}
+.nv{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid var(--rule)}
+.nv-when{font-family:var(--sans);font-size:14px;font-weight:700;padding-top:3px}
+.nv.nt .nv-when{color:var(--kicker)}
+.nv h3{font-size:19px;margin-bottom:4px}
+.nv p{margin-bottom:6px;font-size:17px}
+.nv-why{color:var(--ink-2);font-size:16px!important}
+@media(max-width:600px){.nv{grid-template-columns:1fr;gap:4px}}
+.logt input{font:inherit;font-size:14px;border:1px solid var(--rule);padding:4px 6px;width:80px;margin-right:6px}
+.logt input[type=date]{width:140px}
+.logt button{font-size:13.5px;font-weight:600;padding:4px 10px;border:1px solid var(--ink);margin-right:6px}
+.logt button[type=submit]{background:var(--ink);color:var(--paper)}
+.logt button:disabled{opacity:.5}
+.muted{color:var(--ink-2)} .small{font-size:13.5px}
+.ai{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:1px 7px;border:1px solid var(--ink-3);color:var(--ink-2)}
+.ai-big{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ai-medium{border-color:var(--ink);color:var(--ink)}
+.ai-sub{display:block;font-size:12.5px;color:var(--ink-3);margin-top:3px;white-space:nowrap}
+.lock{max-width:420px;margin:60px auto;text-align:left}
+.lock h1{font-size:30px;margin-bottom:6px}
+.lock p{color:var(--ink-2);margin-bottom:18px}
+.lock label{display:block;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.lock input[type=password]{width:100%;font:inherit;font-size:17px;padding:10px 12px;border:1px solid var(--ink);margin-bottom:12px}
+.lock button{font:inherit;font-weight:700;background:var(--ink);color:var(--paper);padding:10px 18px}
+.lock button:disabled{opacity:.5}
+.lock-msg{margin-top:12px;color:var(--kicker)!important;font-size:14.5px}
+/* Tabellen */
+.filters{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0 8px;font-size:14.5px}
+.filters .grp{display:flex;gap:4px;align-items:center}
+.filters .grp > span{color:var(--ink-3);margin-right:6px}
+.flt{padding:4px 10px;border:1px solid var(--rule)}
+.flt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tbl-wrap{overflow-x:auto;margin-top:10px}
+table.data{width:100%;border-collapse:collapse;font-size:15px}
+table.data th{text-align:left;font-size:12.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);font-weight:600;padding:8px 10px 8px 0;border-bottom:2px solid var(--ink)}
+table.data td{padding:11px 10px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.data .r{text-align:right}
+table.data td.time{font-weight:700;white-space:nowrap}
+table.data tr.day td{font-family:var(--serif);font-weight:700;font-size:17px;padding-top:20px;border-bottom:1px solid var(--ink)}
+table.data tr.done td{color:var(--ink-3)}
+table.data tr.kz td.time{color:var(--kicker)}
+.ev small{display:block;color:var(--ink-3);font-size:13px;margin-top:2px}
+.imp{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.imp.high{color:var(--ink)}
+.flag{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--kicker);margin-left:8px}
+.pos{color:#1d6b3a} .neg{color:var(--kicker)}
+
+.linklist{list-style:none;margin-top:18px;columns:2;column-gap:36px}
+@media(max-width:700px){.linklist{columns:1}}
+.linklist li{break-inside:avoid;padding:12px 0;border-bottom:1px solid var(--rule)}
+.linklist a{font-family:var(--serif);font-weight:700;font-size:18px;text-decoration:none}
+.linklist a:hover{text-decoration:underline}
+.linklist small{display:block;color:var(--ink-3);font-size:13.5px}
+.srclist{list-style:none;margin-top:8px;font-size:15px}
+.srclist li{padding:7px 0;border-bottom:1px dotted var(--rule)}
+.srclist a{text-decoration:underline;text-underline-offset:3px}
+
+footer{border-top:1px solid var(--rule-strong);font-size:13px;color:var(--ink-3)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;padding-bottom:28px}
+.loading{padding:80px 0;text-align:center;color:var(--ink-3);font-family:var(--serif);font-size:18px}
+</style>
+</head>
+<body>
+<div class="utility"><div class="wrap">
+  <span id="today">–</span>
+  <span id="state">Locked</span>
+</div></div>
+<header class="mast wrap">
+  <div class="name">NQ Desk</div>
+  <div class="claim">The morning briefing for Nasdaq futures traders</div>
+</header>
+<nav class="ressorts" aria-label="Sections"><div class="wrap" id="nav"></div></nav>
+<div class="ticker"><div class="wrap" id="ticker"></div></div>
+<main class="wrap" id="main"><div class="loading">Loading edition…</div></main>
+<footer><div class="wrap"><span>All times New York (ET) · New editions every weekday before the London open and before the NY open</span><span>Not investment advice</span></div></footer>
+
+<script>
+const RES=[
+  ['start','Front page'],['kalender','News Calendar'],['ict','ICT Plan'],['overnight','Overnight'],
+  ['earnings','Companies'],['makro','Macro & Politics'],['quellen','Sources']
+];
+const LIVE=[
+  ['Forex Factory','Economic calendar with live actuals','https://www.forexfactory.com/calendar'],
+  ['TradingView Calendar','Events and results','https://www.tradingview.com/economic-calendar/'],
+  ['NQ1! Chart','TradingView','https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21'],
+  ['FinancialJuice','Real-time headlines','https://www.financialjuice.com/home'],
+  ['CME FedWatch','Market rate expectations','https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html'],
+  ['Earnings Whispers','Earnings calendar','https://www.earningswhispers.com/calendar'],
+  ['Finviz','Sector heatmap','https://finviz.com/map.ashx?t=sec']
+];
+const IMP={high:'High',medium:'Medium',low:'Low'};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cls=m=>/^\s*\+/.test(m)?'pos':/^\s*[−-]/.test(m)?'neg':'';
+const toMin=t=>{const m=/^(\d{1,2}):(\d{2})$/.exec(t||'');return m?+m[1]*60+ +m[2]:null};
+
+function berlin(){
+  const f=o=>new Intl.DateTimeFormat('en-GB',{timeZone:'America/New_York',...o}).format(new Date());
+  const p=new Intl.DateTimeFormat('de-DE',{timeZone:'America/New_York',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value;
+  return {long:f({weekday:'long',day:'numeric',month:'long',year:'numeric'}),date:`${g('day')}.${g('month')}.`,mins:+g('hour')*60+ +g('minute'),
+          wd:new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short'}).format(new Date())};
+}
+function nextUpd(){
+  /* Editions run at 07:00 and 14:00 Berlin time; shown here in New York time */
+  const at=tz=>{const p=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());return +p.find(x=>x.type==='hour').value%24*60+ +p.find(x=>x.type==='minute').value};
+  const bm=at('Europe/Berlin'),off=((bm-at('America/New_York'))%1440+1440)%1440;
+  const wd=new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Berlin',weekday:'short'}).format(new Date()),we=wd==='Sat'||wd==='Sun';
+  const et=m=>{const x=((m-off)%1440+1440)%1440;return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')+' ET'};
+  if(!we&&bm<420)return et(420);if(!we&&bm<840)return et(840);return((wd==='Fri'||wd==='Sat')?'Monday ':'')+et(420)}
+
+let D=null,fDay='woche',fImp='alle';
+/* Actual impact: how far NQ historically moved in the 30 minutes after each release type (5m candles) */
+const KEYS=[[/nonfarm|\bnfp\b|payrolls/i,'nfp','Nonfarm Payrolls'],[/\bcpi\b/i,'cpi','CPI'],[/\bppi\b/i,'ppi','PPI'],[/\badp\b/i,'adp','ADP Employment'],
+ [/ism services/i,'ism-services','ISM Services PMI'],[/ism manufacturing/i,'ism-manufacturing','ISM Manufacturing PMI'],[/jobless claims/i,'jobless-claims','Initial Jobless Claims'],
+ [/fomc|rate decision|powell/i,'fomc','FOMC / Fed decision'],[/retail sales/i,'retail-sales','Retail Sales'],[/\bpce\b/i,'pce','PCE'],[/\bgdp\b/i,'gdp','GDP'],
+ [/jolts/i,'jolts','JOLTS'],[/michigan|umich|consumer sentiment/i,'umich','UMich Sentiment'],[/consumer confidence/i,'conf-board','Consumer Confidence'],
+ [/crude|eia/i,'eia-crude','EIA Crude Inventories'],[/trade balance/i,'trade-balance','Trade Balance'],[/s&p global.*pmi|flash pmi/i,'sp-pmi','S&P Global PMI'],[/speaks|speech|testimony/i,'fed-speech','Fed speaker']];
+function keyOf(name){if(/^earnings/i.test(name||''))return null;for(const[re,k,l] of KEYS)if(re.test(name))return{k,l};
+  const l=(name||'').replace(/\s*\(.*?\)\s*/g,' ').trim();const k=l.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60);return k?{k,l}:null}
+function imp30(name){const kk=keyOf(name);const ev=((D.impact_stats||{}).events||{});return kk&&ev[kk.k]?ev[kk.k]:null}
+function impCell(name){const x=imp30(name);if(!x)return'<span class="muted">–</span>';
+  return `<span class="ai ai-${x.label.toLowerCase()}">${x.label}</span><small class="ai-sub">${x.avg30} pt in 30 min · ${x.ratio}× normal · n=${x.n}</small>`}
+
+
+const stand=()=>new Date(D.updated_at).toLocaleString('en-GB',{timeZone:'America/New_York',weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})+' ET';
+const today=()=>(D.calendar||[]).filter(e=>(e.day||'').includes(berlin().date));
+const isKz=e=>{const m=toMin(e.time);return m!==null&&m>=570&&m<=660};
+const headline=()=>D.headline||(D.tldr||'').split(/[.→]/)[0];
+const firstSentence=s=>{const m=/^(.+?[.!?])\s+(?=[A-ZÄÖÜ])/.exec(s||'');return m?m[1]:s||''};
+
+function levelsTable(){const l=(D.overnight||{}).levels||[];
+  return l.length?`<table class="lv tnum">${l.map(x=>`<tr><td>${esc(x.label)}</td><td class="v">${esc(x.value)}</td></tr>`).join('')}</table>`:'<p>No levels.</p>'}
+function todayList(){const t=today();
+  return t.length?`<ul class="rail-list tnum">${t.map(e=>`<li class="${isKz(e)?'kz':''}"><span class="t">${esc(e.time)}</span><span>${esc(e.event)}<small>${isKz(e)?'In your killzone · ':''}Impact ${IMP[e.impact]||'–'}${imp30(e.event)?' · Actual impact '+imp30(e.event).label:''}</small></span></li>`).join('')}</ul>`:'<p>No events today.</p>'}
+function notes(){const i=D.ict||{};
+  return `${i.no_trade?`<div class="note-box warn"><b>Do not trade</b>${esc(i.no_trade)}</div>`:''}${i.coach_note?`<div class="note-box"><b>Note to self</b>${esc(i.coach_note)}</div>`:''}`}
+function rail(extra=''){return `<aside class="rail">
+  ${extra}
+  <div class="rail-block"><h3>Today's events</h3>${todayList()}</div>
+  <div class="rail-block"><h3>Key Levels NQ</h3>${levelsTable()}</div>
+  <div class="rail-block"><h3>Reminders</h3>${notes()}</div></aside>`}
+function articleHead(kicker,h,stand1){return `<div class="head-rule"><span class="kicker">${esc(kicker)}</span><h1>${esc(h)}</h1>${stand1?`<p class="standfirst">${esc(stand1)}</p>`:''}<p class="byline">${esc(D.edition||'')} · ${stand()}</p></div>`}
+
+function calTable(){
+  const now=berlin();let last=null,out='';
+  (D.calendar||[]).forEach(e=>{
+    const tdy=(e.day||'').includes(now.date);
+    if(fDay==='heute'&&!tdy)return; if(fImp==='hoch'&&e.impact!=='high')return;
+    const m=toMin(e.time),done=tdy&&m!==null&&m<now.mins-5,nt=/no-trade/i.test(e.note||''),kz=isKz(e);
+    if(e.day!==last){out+=`<tr class="day"><td colspan="4">${esc(e.day)}${tdy?' · Today':''}</td></tr>`;last=e.day}
+    const note=(e.note||'').replace(/no-trade[- ](tag|day)/i,'').trim();
+    out+=`<tr class="${done?'done':''} ${kz?'kz':''}"><td class="time tnum">${esc(e.time)}</td>
+      <td class="ev">${esc(e.event)}${kz?'<span class="flag">Killzone</span>':''}${nt?'<span class="flag">Do not trade</span>':''}${note?`<small>${esc(note)}</small>`:''}</td>
+      <td><span class="imp ${esc(e.impact)}">${IMP[e.impact]||'–'}</span></td>
+      <td>${impCell(e.event)}</td></tr>`;
+  });
+  return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Time</th><th>Event</th><th>Impact</th><th>Actual impact</th></tr></thead><tbody>${out||'<tr><td colspan="4">No events for this filter.</td></tr>'}</tbody></table></div>`;
+}
+function upTable(a){return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Date</th><th>Release (ET)</th><th>Ticker</th><th>Why it matters</th></tr></thead><tbody>${(a||[]).map(x=>`<tr><td class="time tnum">${esc(x.date)}</td><td class="tnum">${esc(x.time)}</td><td><b>${esc(x.ticker)}</b></td><td>${esc(x.note)}</td></tr>`).join('')||'<tr><td colspan="4">No upcoming earnings listed.</td></tr>'}</tbody></table></div>`}
+
+function erTable(a){const r=(a||[]).some(x=>x.release);return `<div class="tbl-wrap"><table class="data"><thead><tr><th>Ticker</th><th>Move</th>${r?'<th>Release (ET)</th>':''}<th>Why</th></tr></thead><tbody>${(a||[]).map(x=>`<tr><td><b>${esc(x.ticker)}</b></td><td class="tnum ${cls(x.move)}"><b>${esc(x.move)}</b></td>${r?`<td class="time tnum">${esc(x.release||'–')}</td>`:''}<td>${esc(x.note)}</td></tr>`).join('')||'<tr><td colspan="4">No entries.</td></tr>'}</tbody></table></div>`}
+
+const V={
+  start(){
+    const i=D.ict||{},ov=D.overnight||{},mk=(D.macro||[])[0]||{};
+    const sc=(i.scenarios||[])[0]||'';
+    return `<div class="front"><div>
+      <article class="lead"><span class="kicker">Lead story · Bias: ${esc(i.bias||'–')}</span>
+        <h1>${esc(headline())}</h1><p class="teaser">${esc(D.tldr)}</p>
+        <p class="byline">${esc(D.edition||'')} · ${stand()}</p></article>
+      <div class="stories">
+        <article class="story"><span class="kicker">Overnight</span><h2>${esc((ov.bullets||[])[0]||'The night in brief')}</h2><p>${esc(firstSentence(ov.summary))}</p><button class="go" data-go="overnight">Read more</button></article>
+        <article class="story"><span class="kicker">ICT-Plan</span><h2>${esc(i.bias||'Daily plan')}: target is ${esc((i.dol||'').split(',')[0])}</h2><p>${esc(sc)}</p><button class="go" data-go="ict">See the plan</button></article>
+        <article class="story"><span class="kicker">Makro & Politik</span><h2>${esc(mk.title||'')}</h2><p>${esc(firstSentence(mk.text))}</p><button class="go" data-go="makro">Read more</button></article>
+      </div>
+      <div class="below"><span class="kicker">Companies</span><h2 style="font-size:22px;margin-bottom:4px">Earnings and price reactions</h2>${erTable([...((D.earnings||{}).yesterday||[]),...((D.earnings||{}).today||[])])}<h3 style="font-size:18px;margin:22px 0 0">Coming up</h3>${upTable((D.earnings||{}).upcoming)}</div>
+    </div>${rail()}</div>`;
+  },
+  kalender(){
+    return `<div class="article"><div>${articleHead('News Calendar','Economic calendar for the week','All times in New York time (ET). Events in your killzone from 09:30 to 11:00 ET are marked in red. Actual impact shows how far NQ really moved in the first 30 minutes after past releases, compared with a normal 30 minutes at that time of day.')}
+      <div class="filters">
+        <div class="grp"><span>Period</span><button class="flt" data-day="woche" aria-pressed="${fDay==='woche'}">Full week</button><button class="flt" data-day="heute" aria-pressed="${fDay==='heute'}">Today only</button></div>
+        <div class="grp"><span>Impact</span><button class="flt" data-imp="alle" aria-pressed="${fImp==='alle'}">All</button><button class="flt" data-imp="hoch" aria-pressed="${fImp==='hoch'}">High only</button></div>
+      </div>${calTable()}${(D.impact_stats||{}).method?`<p class="byline" style="margin-top:14px">Method: ${esc(D.impact_stats.method)}</p>`:''}</div>${rail()}</div>`;
+  },
+  ict(){
+    const i=D.ict||{};
+    return `<div class="article"><div>${articleHead('ICT Plan · NY AM Killzone',`Bias: ${i.bias||'–'}`,i.dol?`Draw on liquidity: ${i.dol}`:'')}
+      <div class="body"><p>${esc(i.narrative)}</p>${i.week_profile?`<h2>This week through ICT's eyes</h2><p>${esc(i.week_profile)}</p>`:''}${(i.news_view||[]).length?`<h2>ICT read on the news</h2><div class="news-view">${i.news_view.map(n=>`<div class="nv ${/no trade/i.test(n.take)?'nt':''}"><div class="nv-when tnum">${esc(n.when)}</div><div><h3>${esc(n.event)}</h3><p>${esc(n.take)}</p><p class="nv-why"><b>Why:</b> ${esc(n.why)}</p></div></div>`).join('')}</div>`:''}<h2>Scenarios</h2><ul>${(i.scenarios||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
+      <h2>Execution process</h2><ol class="steps"><li><b>Step 1: Create your daily bias.</b> Higher-timeframe narrative and draw on liquidity.</li><li><b>Step 2: Create 2 scenarios on the 15m timeframe.</b> If this happens, then that. One for each side.</li><li><b>Step 3: Execute on the 1m timeframe.</b> Entry on Turtle Soup, the first presented FVG or displacement.</li></ol><h2>Risk plan</h2><ul><li>Max 2 trades per day, max −2R per day.</li><li>Stop after one +2R win or after 2 wins.</li><li>Minimum 1:1 RR, stop at the swing high or low.</li><li>No entry within 5 minutes of a high-impact release.</li></ul></div>
+      </div>${rail()}</div>`;
+  },
+  overnight(){
+    const ov=D.overnight||{};
+    return `<div class="article"><div>${articleHead('Overnight',headline(),firstSentence(D.tldr))}
+      <div class="body"><p>${esc(ov.summary)}</p><h2>Key points</h2><ul>${(ov.bullets||[]).map(b=>`<li>${esc(b)}</li>`).join('')}</ul></div>
+      </div>${rail()}</div>`;
+  },
+  earnings(){
+    const e=D.earnings||{};
+    return `<div class="article"><div>${articleHead('Companies','Earnings and Big Tech','Price reactions after and before the bell. AMC means results after the US market close.')}
+      <h2 style="font-size:22px;margin-top:22px">Yesterday after the close</h2>${erTable(e.yesterday)}
+      <h2 style="font-size:22px;margin-top:28px">Today</h2>${erTable(e.today)}<h2 style="font-size:22px;margin-top:28px">Coming up</h2><p class="byline" style="margin-top:2px">Release times in New York time. The call is when guidance usually moves the stock a second time.</p>${upTable(e.upcoming)}</div>${rail()}</div>`;
+  },
+  makro(){
+    return `<div class="article"><div>${articleHead('Macro & Politics','The state of the markets','')}
+      <div class="body">${(D.macro||[]).map(m=>`<h2>${esc(m.title)}</h2><p>${esc(m.text)}</p>`).join('')}</div></div>${rail()}</div>`;
+  },
+  quellen(){
+    return `<div class="article"><div>${articleHead('Sources','Live sources and references','Use the live sources for anything that changes by the minute. The references for this edition are listed below.')}
+      <ul class="linklist">${LIVE.map(([t,s,u])=>`<li><a href="${u}" target="_blank" rel="noopener">${t}</a><small>${s}</small></li>`).join('')}</ul>
+      <h2 style="font-size:22px;margin-top:30px">References for this edition</h2>
+      <ul class="srclist">${(D.sources||[]).map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join('')}</ul></div>${rail()}</div>`;
+  }
+};
+
+const cur=()=>{const h=location.hash.slice(1);return RES.some(r=>r[0]===h)?h:'start'};
+function show(){const id=cur();
+  document.querySelectorAll('.res').forEach(b=>b.toggleAttribute('aria-current',false)||b.dataset.go===id&&b.setAttribute('aria-current','page'));
+  document.getElementById('main').innerHTML=V[id]();}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-day],[data-imp]');if(!t)return;
+  if(t.dataset.go){location.hash=t.dataset.go==='start'?'':t.dataset.go;if(t.dataset.go==='start')show();window.scrollTo(0,0);return}
+  if(t.dataset.day){fDay=t.dataset.day;show()} if(t.dataset.imp){fImp=t.dataset.imp;show()}});
+addEventListener('hashchange',show);
+
+document.getElementById('today').textContent=berlin().long;
+document.getElementById('nav').innerHTML=RES.map(([id,l])=>`<button class="res" data-go="${id}">${l}</button>`).join('');
+
+/* ---- Lock: content is stored encrypted (ECDH P-256 + AES-GCM); the password unlocks the private key in this browser only ---- */
+const te=new TextEncoder(),td=new TextDecoder();
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function unlock(pw){
+  const [K,E]=await Promise.all([fetch('./keys.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('keys '+r.status);return r.json()}),
+                                  fetch('./data.enc.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('data '+r.status);return r.json()})]);
+  const base=await crypto.subtle.importKey('raw',te.encode(pw),'PBKDF2',false,['deriveKey']);
+  const wk=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64d(K.priv.salt),iterations:K.priv.iter,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  let privJwk;
+  try{privJwk=JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(K.priv.iv)},wk,b64d(K.priv.ct))))}catch(e){throw new Error('wrong')}
+  const priv=await crypto.subtle.importKey('jwk',privJwk,{name:'ECDH',namedCurve:'P-256'},false,['deriveBits']);
+  const epk=await crypto.subtle.importKey('jwk',E.epk,{name:'ECDH',namedCurve:'P-256'},false,[]);
+  const bits=await crypto.subtle.deriveBits({name:'ECDH',public:epk},priv,256);
+  const hk=await crypto.subtle.importKey('raw',bits,'HKDF',false,['deriveKey']);
+  const dk=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:b64d(E.salt),info:te.encode('nq-desk-v1')},hk,{name:'AES-GCM',length:256},false,['decrypt']);
+  return JSON.parse(td.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b64d(E.iv)},dk,b64d(E.ct))));
+}
+function start(d){
+  D=d;
+  const age=(Date.now()-new Date(d.updated_at).getTime())/3.6e6;
+  document.getElementById('state').innerHTML=`<b>${esc(d.edition||'Edition')}</b> · ${age<8?'current':'older than 8 hours'} · Next edition ${nextUpd()}`;
+  const t=today();
+  document.getElementById('ticker').innerHTML=`<span class="lab">Today</span>`+(t.length?t.map(e=>`<span class="${isKz(e)?'kz':''}"><span class="t tnum">${esc(e.time)}</span>${esc(e.event)}</span>`).join(''):'<span>No events</span>')+
+    ((D.calendar||[]).filter(e=>/no-trade/i.test(e.note||'')).map(e=>`<span class="kz"><span class="t">${esc(e.day)}</span>${esc(e.event)}: do not trade</span>`).join(''));
+  show();
+}
+function lockScreen(msg){
+  document.getElementById('main').innerHTML=`<div class="lock"><h1>NQ Desk is locked</h1><p>Enter your password to open today's edition.</p>
+  <form id="lockf" autocomplete="on"><input type="text" name="username" value="nq-desk" autocomplete="username" hidden>
+  <label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required autofocus>
+  <button type="submit">Unlock</button><p class="lock-msg" id="lockmsg">${msg||''}</p></form></div>`;
+  document.getElementById('pw').focus();
+}
+document.addEventListener('submit',async e=>{if(e.target.id!=='lockf')return;e.preventDefault();
+  const pw=document.getElementById('pw').value,m=document.getElementById('lockmsg'),b=e.target.querySelector('button');b.disabled=true;m.textContent='Unlocking…';
+  try{const d=await unlock(pw);start(d)}catch(err){b.disabled=false;m.textContent=err.message==='wrong'?'Wrong password. Try again.':'The edition could not be loaded ('+err.message+'). Reload the page.'}});
+lockScreen();
+</script>
+</body>
+</html>
