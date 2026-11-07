@@ -915,8 +915,10 @@ table.ff{border-radius:12px}
 .yn button.mr[aria-pressed="true"]{background:var(--warn);color:#000}
 .pb-t{font-size:16px;color:#fff;flex:1;padding:6px 0}
 .syncst{font-size:11.5px;color:var(--muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tvw{border-radius:var(--r);overflow:hidden}
-.tvw[data-tv="tape"]{margin-bottom:14px}
+.tvw{border-radius:var(--r);overflow:hidden;background:var(--panel);padding:12px 14px}
+.tvw iframe{color-scheme:light}
+.tvw[data-tv="tape"]{margin-bottom:14px;border-radius:999px;padding:0 18px;min-height:46px!important}
+.tvw .tradingview-widget-copyright{display:none}
 .ytw{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;margin-top:10px;background:#000}
 .ytw iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .focus{font-size:15.5px;color:var(--hi);font-weight:600}
@@ -1562,7 +1564,7 @@ function newsView(){
     <section class="sec box" id="s-src"><div class="bx-h"><h2>Sources</h2><span>${(NEWS.sources||[]).length} references</span></div><ul class="src">${(NEWS.sources||[]).map(x=>{let h='';try{h=new URL(x.url).hostname.replace(/^www\./,'')}catch(_){}return `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a><small>${esc(h)}</small></li>`}).join('')}</ul></section>
   </div>
   <aside class="rail">
-    ${tvBox('Nasdaq 100',120)}
+    ${tvBox('Nasdaq 100',230)}
     <div><h5>Key levels NQ</h5><table class="lv">${(ov.levels||[]).map(x=>`<tr><td>${esc(x.label)}</td><td>${esc(String(x.value).replace(/^approx\.\s*/i,'≈ '))}</td></tr>`).join('')}</table></div>
     ${i.no_trade?`<div><h5>Do not trade</h5><p class="note red">${esc(i.no_trade)}</p></div>`:''}
     ${i.coach_note?`<div><h5>Note to self</h5><p class="note">${esc(i.coach_note)}</p></div>`:''}
@@ -2132,8 +2134,8 @@ function mountTV(el,file,cfg){el.dataset.m='1';el.innerHTML='';const w=document.
   const inner=document.createElement('div');inner.className='tradingview-widget-container__widget';w.appendChild(inner);
   const sc=document.createElement('script');sc.src='https://s3.tradingview.com/external-embedding/'+file;sc.async=true;sc.textContent=JSON.stringify(cfg);w.appendChild(sc);el.appendChild(w)}
 const TV={tape:['embed-widget-ticker-tape.js',{symbols:[{proName:'PEPPERSTONE:NAS100',title:'Nasdaq 100'},{proName:'FOREXCOM:SPXUSD',title:'S&P 500'},{proName:'CAPITALCOM:DXY',title:'DXY'},{proName:'CAPITALCOM:VIX',title:'VIX'},{proName:'TVC:USOIL',title:'WTI'},{proName:'TVC:GOLD',title:'Gold'},{proName:'FX:EURUSD',title:'EUR/USD'}],showSymbolLogo:false,isTransparent:true,displayMode:'adaptive',colorTheme:'dark',locale:'en'}],
-  'Nasdaq 100':['embed-widget-symbol-info.js',{symbol:'PEPPERSTONE:NAS100',width:'100%',locale:'en',colorTheme:'dark',isTransparent:true}],
-  'Top stories':['embed-widget-timeline.js',{feedMode:'market',market:'index',isTransparent:true,displayMode:'regular',width:'100%',height:560,colorTheme:'dark',locale:'en'}]};
+  'Nasdaq 100':['embed-widget-mini-symbol-overview.js',{symbol:'PEPPERSTONE:NAS100',width:'100%',height:206,locale:'en',dateRange:'1D',colorTheme:'dark',isTransparent:true,autosize:false,chartOnly:false,noTimeScale:false}],
+  'Top stories':['embed-widget-timeline.js',{feedMode:'market',market:'index',isTransparent:true,displayMode:'regular',width:'100%',height:520,colorTheme:'dark',locale:'en'}]};
 window.NQ_AFTER=()=>document.querySelectorAll('.tvw[data-tv]:not([data-m])').forEach(el=>{const x=TV[el.dataset.tv];if(x)mountTV(el,x[0],x[1])});
 /* unlock, then start the app */
 document.getElementById('lockf').addEventListener('submit',async e=>{e.preventDefault();
